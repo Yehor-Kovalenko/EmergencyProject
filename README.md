@@ -1,7 +1,7 @@
 # Getting Started
 
 ## HOW TO RUN THE PROJECT
-1. Create database 'emergency' in postgreSQL
+1. Create database 'emergency' in postgreSQL (on user `postgres` with password `postgres`)
 2. Run in the console `mvn install`
 3. Run in the console `java -jar target/emergency-0.0.1-SNAPSHOT.jar` or click `Run` button in the IDE
 4. Open in browser:
