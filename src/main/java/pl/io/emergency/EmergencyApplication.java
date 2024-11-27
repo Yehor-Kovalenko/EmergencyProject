@@ -10,6 +10,7 @@ public class EmergencyApplication {
 		SpringApplication.run(EmergencyApplication.class, args);
 		System.out.println("pupka zalupka");
 		System.out.println("kisimisi");
+		System.out.println("change");
 	}
 
 }
