@@ -9,6 +9,7 @@ public class EmergencyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EmergencyApplication.class, args);
 		System.out.println("pupka zalupka");
+		System.out.println("kisimisi");
 	}
 
 }
