@@ -1,18 +1,19 @@
 # Getting Started
 
 ## HOW TO RUN THE PROJECT
-1. Create database 'emergency' in postgreSQL (on user `postgres` with password `postgres`)
-2. Run in the console `mvn install`
-3. Run in the console `java -jar target/emergency-0.0.1-SNAPSHOT.jar` or click `Run` button in the IDE
+1. Database in POSTGRESQL:
+   - Create a user with username io_dev and password password and give him at least privileges to create Databases and login. (all privileges also could be added)
+   - Create a database emergency under user io_dev
+2. Run in the console mvn install to build the project
+3. Run in the console java -jar target/emergency-0.0.1-SNAPSHOT.jar or click Run button in the IDE
 4. Open in browser:
-    - `http://localhost:8080/v3/docs` for endpoint documentation in json format
-    -  `http://localhost:8080/swagger-ui/index.html` for endpoint documentation in GUI format. In gui format you can also execute the HTTP request and get all necessary information
-    - `http://localhost:8080/*` with other endpoints, where `*` is custom endpoint path
+   - ` http://localhost:8080/v3/docs ` for endpoint documentation in json format
+   - ` http://localhost:8080/swagger-ui/index.html ` for endpoint documentation in GUI format. In gui format you can also execute the HTTP request and get all necessary information
+   - ` http://localhost:8080/* ` with other endpoints, where * is custom endpoint path
 
 ## Recommendations
-1. Wszystkie tworzone endpointy muszą zaczynać się od `api/`
-2. Każdy zespół pracuje na swojej GIT gałęzi i łączy z gałęzią dev poprzez tworzenie pull request
-
+1. All created endpoints' paths should start with api/
+2. Every team works on its own git branch and merges to the dev branch using pull-requests
 
 
 
