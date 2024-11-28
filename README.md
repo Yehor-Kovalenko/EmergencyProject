@@ -15,7 +15,7 @@
 1. All created endpoints' paths should start with api/
 2. Every team works on its own git branch and merges to the dev branch using pull-requests
 
-
+:))
 
 
 
