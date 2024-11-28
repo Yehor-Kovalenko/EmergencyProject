@@ -7,7 +7,7 @@
 2. Run in the console mvn install to build the project
 3. Run in the console java -jar target/emergency-0.0.1-SNAPSHOT.jar or click Run button in the IDE
 4. Open in browser:
-   - ` http://localhost:8080/v3/docs ` for endpoint documentation in json format
+   - ` http://localhost:8080/v3/api-docs ` for endpoint documentation in json format
    - ` http://localhost:8080/swagger-ui/index.html ` for endpoint documentation in GUI format. In gui format you can also execute the HTTP request and get all necessary information
    - ` http://localhost:8080/* ` with other endpoints, where * is custom endpoint path
 
