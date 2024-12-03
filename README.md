@@ -15,6 +15,8 @@
 1. All created endpoints' paths should start with api/
 2. Every team works on its own git branch and merges to the dev branch using pull-requests
 
+> P. S. All database data is deleted and db schema is recreated at the beginning of every run of the application
+
 :))
 
 
