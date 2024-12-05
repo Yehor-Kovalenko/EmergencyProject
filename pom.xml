@@ -11,7 +11,8 @@
 	<groupId>pl.io</groupId>
 	<artifactId>emergency</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>emergency</name>
+    <packaging>pom</packaging>
+    <name>emergency</name>
 	<description>Coordinating system for humanitarian support during emergencies</description>
 	<url/>
 	<licenses>
@@ -20,7 +21,10 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>Resourses_Module</module>
+    </modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>

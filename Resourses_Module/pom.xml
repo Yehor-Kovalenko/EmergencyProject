@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>pl.io</groupId>
+        <artifactId>emergency</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.example</groupId>
+    <artifactId>Resourses_Module</artifactId>
+
+    <developers>
+        <developer>
+            <id>247640</id>
+            <name>Anna Chojnacka</name>
+            <email>247640@edu.p.lodz.pl</email>
+        </developer>
+        <developer>
+            <id>247721</id>
+            <name>Natalia Lewosińska</name>
+            <email>247721@edu.p.lodz.pl</email>
+        </developer>
+    </developers>
+
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>
