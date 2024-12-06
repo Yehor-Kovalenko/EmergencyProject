@@ -1,47 +1,61 @@
-package pl.io.emergency.controller;
+]package pl.io.emergency.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.io.emergency.entity.ExampleEntity;
+import org.springframework.web.bind.annotation.*;
 import pl.io.emergency.service.Resource;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Example implementation of the controller class that will provide access to the API endpoint of the backend server
+ * Controller providing access to the API endpoints for managing resources.
  */
 @RestController
 @RequestMapping("/api/resource")
+@Tag(name = "Resource Management", description = "Operations related to resource management")
 public class ResourceController {
-    private static final Logger log = LoggerFactory.getLogger(Resource.class);
-    private Resource res_service;
 
-    public void ExampleController(Resource res_service) {
-        this.res_service = res_service;
-        log.info("Service instantiated");
+    private static final Logger log = LoggerFactory.getLogger(ResourceController.class);
+    private final Resource resourceService;
+
+    public ResourceController(Resource resourceService) {
+        this.resourceService = resourceService;
+        log.info("Resource service instantiated");
     }
 
-    /*@Operation(summary = "Example entity post method", description = "Detailed description why this method should be used, what does it do")
+    @Operation(
+            summary = "Create a new resource",
+            description = "Allows adding a new resource with necessary details like type, description, amount, etc."
+    )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Example entity is valid"),
+            @ApiResponse(responseCode = "200", description = "Resource successfully created"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @Tag(name = "Example tag", description = "Operations related to example entity")
-    @PostMapping("/entity")
-    public ResponseEntity<?> accessExampleEndpoint(@RequestBody ExampleEntity exampleEntity) {
-        log.info("Example entity has just been received ");
+    @PostMapping
+    public ResponseEntity<?> createResource(@Valid @RequestBody Resource resourceRequest) {
+        log.info("Received request to create a resource: {}", resourceRequest);
+
+        // Business logic for processing the resource
+        resourceService.setType(resourceRequest.getType());
+        resourceService.setDescription(resourceRequest.getDescription());
+        resourceService.setAmount(resourceRequest.getAmount());
+        resourceService.setHolderId(resourceRequest.getHolderId());
+        resourceService.setDate(resourceRequest.getDate());
+        resourceService.setStatus(resourceRequest.getStatus());
+
+        // Prepare response
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Example good response");
+        response.put("message", "Resource successfully created");
+        response.put("status", resourceService.getStatus());
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
-    }*/
+    }
 }
