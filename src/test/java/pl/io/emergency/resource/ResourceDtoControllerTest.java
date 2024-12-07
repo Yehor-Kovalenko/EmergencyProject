@@ -21,7 +21,7 @@ public class ResourceDtoControllerTest {
     public void testCreateResourceToDestination_Success() throws Exception {
         // Perform the request and capture the response
         ResponseEntity<ResourceDto> response = resourceController.createResourceToDestination(
-                ResourceType.CLOTHES, "First aid kits", 50.0, 1L, 2L);
+                "CLOTHES", "First aid kits", 50.0, 1L, 2L);
 
         // Assert the response
         ResourceDto responseBody = response.getBody();
@@ -38,7 +38,7 @@ public class ResourceDtoControllerTest {
     public void testCreateResourceToDonate_Success() throws Exception {
         // Perform the request and capture the response
         ResponseEntity<ResourceDto> response = resourceController.createResourceToDonate(
-                ResourceType.CLOTHES, "First aid kits", 50.0, 2L);
+                "CLOTHES", "First aid kits", 50.0, 2L);
 
         // Assert the response
         ResourceDto responseBody = response.getBody();

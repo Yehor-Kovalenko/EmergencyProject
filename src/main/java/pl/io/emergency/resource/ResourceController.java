@@ -65,7 +65,7 @@ public class ResourceController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping("/destination")
-    public ResponseEntity<ResourceDto> createResourceToDestination (@RequestParam(required = true) ResourceType type,
+    public ResponseEntity<ResourceDto> createResourceToDestination (@RequestParam(required = true) String type,
                                                                     @RequestParam(required = true) String description,
                                                                     @RequestParam(required = true) double amount,
                                                                     @RequestParam(required = true) Long destinationId,
@@ -84,7 +84,7 @@ public class ResourceController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping("/donate")
-    public ResponseEntity<ResourceDto> createResourceToDonate (@RequestParam(required = true) ResourceType type,
+    public ResponseEntity<ResourceDto> createResourceToDonate (@RequestParam(required = true) String type,
                                                                     @RequestParam(required = true) String description,
                                                                     @RequestParam(required = true) double amount,
                                                                     @RequestParam(required = true) Long holderId)

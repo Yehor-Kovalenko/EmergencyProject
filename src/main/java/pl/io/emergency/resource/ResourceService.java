@@ -15,27 +15,40 @@ public class ResourceService {
     }
 
 
-    public ResourceDto CreateRespurceToDestination (ResourceType type, String description, double amount, Long destinationId, Long holderId)
+    public ResourceDto CreateRespurceToDestination (String type, String description, double amount, Long destinationId, Long holderId)
     {
-        ResourceDto r = new ResourceDto(type, description, amount, destinationId, holderId);
-        ResourceEntity entity = new ResourceEntity(type, description, amount, destinationId, holderId);
+        try {
+            ResourceType paramType = ResourceType.valueOf(type);
 
-        ResourceEntity entitySave =  resourceRepositorium.save(entity);
-        r.setId(entitySave.getId());
-        r.setDate(entitySave.getDate_of_registration());
+            ResourceDto r = new ResourceDto(paramType, description, amount, destinationId, holderId);
+            ResourceEntity entity = new ResourceEntity(paramType, description, amount, destinationId, holderId);
 
-        return r;
+            ResourceEntity entitySave =  resourceRepositorium.save(entity);
+            r.setId(entitySave.getId());
+            r.setDate(entitySave.getDate_of_registration());
+
+            return r;
+        } catch (Exception e) {
+            //System.out("Bad type");
+            return null;
+        }
     }
 
-    public ResourceDto CreateResourceToDonate(ResourceType type, String description, double amount, Long holderId)
+    public ResourceDto CreateResourceToDonate(String type, String description, double amount, Long holderId)
     {
-        ResourceDto r = new ResourceDto(type, description, amount, holderId);
-        ResourceEntity entity = new ResourceEntity(type, description, amount, holderId);
+        try {
+            ResourceType paramType = ResourceType.valueOf(type);
+            ResourceDto r = new ResourceDto(paramType, description, amount, holderId);
+            ResourceEntity entity = new ResourceEntity(paramType, description, amount, holderId);
 
-        ResourceEntity entitySave =  resourceRepositorium.save(entity);
-        r.setId(entitySave.getId());
-        r.setDate(entitySave.getDate_of_registration());
+            ResourceEntity entitySave =  resourceRepositorium.save(entity);
+            r.setId(entitySave.getId());
+            r.setDate(entitySave.getDate_of_registration());
 
-        return r;
+            return r;
+        } catch (Exception e) {
+            //System.out("Bad type");
+            return null;
+        }
     }
 }

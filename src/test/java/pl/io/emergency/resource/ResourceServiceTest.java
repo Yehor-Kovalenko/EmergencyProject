@@ -34,7 +34,7 @@ public class ResourceServiceTest {
         Mockito.when(resourceRepositorium.save(Mockito.any(ResourceEntity.class))).thenReturn(mockEntity);
 
         // Wywołujemy metodę serwisu, która zapisuje encję
-        ResourceDto resourceDto = resourceService.CreateRespurceToDestination(type, description, amount, destinationId, holderId);
+        ResourceDto resourceDto = resourceService.CreateRespurceToDestination(type.name(), description, amount, destinationId, holderId);
 
         // Sprawdzamy, czy dane w obiekcie DTO są poprawne
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
@@ -76,7 +76,7 @@ public class ResourceServiceTest {
         Mockito.when(resourceRepositorium.save(Mockito.any(ResourceEntity.class))).thenReturn(mockEntity);
 
         // Wywołujemy metodę serwisu, która zapisuje encję
-        ResourceDto resourceDto = resourceService.CreateResourceToDonate(type, description, amount, holderId);
+        ResourceDto resourceDto = resourceService.CreateResourceToDonate(type.name(), description, amount, holderId);
 
         // Sprawdzamy, czy dane w obiekcie DTO są poprawne
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
