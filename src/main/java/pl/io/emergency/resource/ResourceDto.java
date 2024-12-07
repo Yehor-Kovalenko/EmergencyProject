@@ -1,37 +1,33 @@
-package pl.io.emergency.service;
+package pl.io.emergency.resource;
 
 import java.time.LocalDate;
 
-import jakarta.annotation.Nullable;
-import org.springframework.stereotype.Service;
+import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-@Service
-public class Resource {
-    private String id;
-    private String type;
+//data transfer object
+public class ResourceDto implements Serializable{
+    private Long id;
+    private ResourceType type;
     private String description;
     private double amount;
     private LocalDate date;
-    private String status;
+    private ResourceStatus status;
+    private Long destinationId;
+    private Long holderId;
 
-    private String destinationId;
-    private String holderId;
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getType() {
+    public ResourceType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ResourceType type) {
         this.type = type;
     }
 
@@ -59,51 +55,49 @@ public class Resource {
         this.date = date;
     }
 
-    public String getStatus() {
+    public ResourceStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ResourceStatus status) {
         this.status = status;
     }
 
-    public String getDestinationId() {
+    public Long getDestinationId() {
         return destinationId;
     }
 
-    public void setDestinationId(String destinationId) {
+    public void setDestinationId(Long destinationId) {
         this.destinationId = destinationId;
     }
 
-    public String getHolderId() {
+    public Long getHolderId() {
         return holderId;
     }
 
-    public void setHolderId(String holderId) {
+    public void setHolderId(Long holderId) {
         this.holderId = holderId;
     }
 
-    public Resource()
+    public ResourceDto()
     {}
 
-    public Resource (String type, String description, double amount, String destinationId, String holderId)
+    public ResourceDto (ResourceType type, String description, double amount, Long destinationId, Long holderId)
     {
         this.type = type;
         this.description = description;
         this.amount = amount;
-        this.date =LocalDate.now();
-        this.status = "0";
+        this.status = ResourceStatus.READY;
         this.destinationId = destinationId;
         this.holderId = holderId; //user_id
     }
 
-    public Resource (String type, String description, double amount, String holderId)
+    public ResourceDto (ResourceType type, String description, double amount, Long holderId)
     {
         this.type = type;
         this.description = description;
         this.amount = amount;
-        this.date =LocalDate.now();
-        this.status = "0";
+        this.status = ResourceStatus.READY;
         this.destinationId = null;
         this.holderId = holderId; //przekazywany pzrze uzytlownika
     }
