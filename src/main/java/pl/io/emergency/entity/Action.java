@@ -24,4 +24,8 @@ public class Action implements Serializable {
    private long catastropheId;
 
    private boolean attendance;
+
+    public boolean getAttendance() {
+        return attendance;
+    }
 }

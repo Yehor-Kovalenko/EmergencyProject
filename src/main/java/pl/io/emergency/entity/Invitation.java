@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,7 +26,7 @@ public class Invitation implements Serializable {
 
     private String description;
 
-    private LocalDate date;
+    private Date date;
 
     private String link;
 

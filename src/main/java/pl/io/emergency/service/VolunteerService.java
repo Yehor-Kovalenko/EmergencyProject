@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.io.emergency.entity.Action;
 import pl.io.emergency.entity.Volunteer;
 import pl.io.emergency.repository.ActionRepository;
+import pl.io.emergency.repository.UserRepository;
 
 import java.util.List;
 
@@ -11,9 +12,15 @@ import java.util.List;
 public class VolunteerService {
 
     private final ActionRepository actionRepository;
+    private final UserRepository userRepository;
 
-    public VolunteerService(ActionRepository actionRepository) {
+    public VolunteerService(ActionRepository actionRepository, UserRepository userRepository) {
         this.actionRepository = actionRepository;
+        this.userRepository = userRepository;
+    }
+
+    public List<Volunteer> getAllVolunteers() {
+        return userRepository.findByType(Volunteer.class);
     }
 
     public float showAverage(Volunteer volunteer) {
@@ -42,9 +49,14 @@ public class VolunteerService {
             throw new IllegalStateException("Action already has a rating.");
         }
 
-        action.setRatingFromAction(rating);
+        if (action.getAttendance()) {
+            action.setRatingFromAction(rating);
 
-        actionRepository.save(action);
+            actionRepository.save(action);
+        }
+        else {
+            throw new IllegalArgumentException("Volunteer wasn't at this action.");
+        }
     }
 
     public void acceptAttendance(Action action) {
