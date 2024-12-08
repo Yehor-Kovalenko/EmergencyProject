@@ -77,6 +77,7 @@ public class HelpRequestController {
         dto.setLastName(helpRequest.getLastName());
         dto.setEmail(helpRequest.getEmail());
         dto.setDescription(helpRequest.getDescription());
+        dto.setStatus(helpRequest.getStatus());
         dto.setUniqueCode(helpRequest.getUniqueCode());
         dto.setReportedDate(helpRequest.getReportedDate());
         return dto;
