@@ -3,7 +3,7 @@ package pl.io.emergency.service;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.io.emergency.dto.HelpRequestUpdateDTO;
+import pl.io.emergency.dto.HelpRequestDTORequest;
 import pl.io.emergency.entity.Catastrophe;
 import pl.io.emergency.entity.HelpRequest;
 import pl.io.emergency.exception.CatastropheNotFound;
@@ -46,7 +46,7 @@ public class EventService {
         return helpRequestRepository.findByUniqueCode(uniqueCode);
     }
 
-    public HelpRequest updateHelpRequest(String uniqueCode, @Valid HelpRequestUpdateDTO updateDTO) {
+    public HelpRequest updateHelpRequest(String uniqueCode, @Valid HelpRequestDTORequest updateDTO) {
         HelpRequest helpRequest = helpRequestRepository.findByUniqueCode(uniqueCode)
                 .orElseThrow(() -> new HelpRequestNotFound("HelpRequest not found with uniqueCode " + uniqueCode));
 

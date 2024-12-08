@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HelpRequestUpdateDTO {
+public class HelpRequestDTORequest {
 
     @NotBlank
     private String firstName;

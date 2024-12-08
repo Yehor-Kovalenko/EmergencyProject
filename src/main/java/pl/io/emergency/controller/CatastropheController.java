@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.io.emergency.dto.CatastropheDTORequest;
 import pl.io.emergency.entity.Catastrophe;
 import pl.io.emergency.service.EventService;
 
@@ -35,8 +36,17 @@ public class CatastropheController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping
-    public ResponseEntity<Catastrophe> createCatastrophe(@Valid @RequestBody Catastrophe catastrophe) {
-        Catastrophe savedReport = eventService.createCatastrophe(catastrophe);
-        return new ResponseEntity<>(savedReport, HttpStatus.CREATED);
+    public ResponseEntity<Catastrophe> createCatastrophe(@Valid @RequestBody CatastropheDTORequest catastropheDTORequest) {
+        Catastrophe catastrophe = mapFromDTORequest(catastropheDTORequest);
+        Catastrophe savedCatastrophe = eventService.createCatastrophe(catastrophe);
+        return new ResponseEntity<>(savedCatastrophe, HttpStatus.CREATED);
+    }
+
+    private Catastrophe mapFromDTORequest(CatastropheDTORequest catastropheDTORequest) {
+        Catastrophe catastrophe = new Catastrophe();
+        catastrophe.setType(catastropheDTORequest.getType());
+        catastrophe.setLatitude(catastropheDTORequest.getLatitude());
+        catastrophe.setLongitude(catastropheDTORequest.getLongitude());
+        return catastrophe;
     }
 }
