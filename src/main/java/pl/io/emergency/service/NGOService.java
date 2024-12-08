@@ -9,6 +9,7 @@ import pl.io.emergency.repository.InvitationRepository;
 import pl.io.emergency.repository.NGORepository;
 import pl.io.emergency.repository.VolunteerRepository;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,15 +21,17 @@ public class NGOService {
     private final VolunteerRepository volunteerRepository;
     private final InvitationRepository invitationRepository;
     private final VolunteerService volunteerService;
+    private final ActionService actionService;
 
     public NGOService(NGORepository ngoRepository,
                       VolunteerRepository volunteerRepository,
                       InvitationRepository invitationRepository,
-                      VolunteerService volunteerService) {
+                      VolunteerService volunteerService, ActionService actionService) {
         this.ngoRepository = ngoRepository;
         this.volunteerRepository = volunteerRepository;
         this.invitationRepository = invitationRepository;
         this.volunteerService = volunteerService;
+        this.actionService = actionService;
     }
 
     // Pobiera wszystkie NGO
@@ -53,6 +56,10 @@ public class NGOService {
                 .map(Volunteer::getEmail)
                 .collect(Collectors.toList());
 
+        List<Long> volunteerId = getVolunteerList(ngoId).stream()
+                .map(Volunteer::getId)
+                .collect(Collectors.toList());
+
         Invitation invitation = new Invitation();
         invitation.setTitle("Invitation to Event " + eventId);
         invitation.setDescription("Join us for an important event!");
@@ -60,6 +67,8 @@ public class NGOService {
         invitation.setLink("http://example.com/event/" + eventId);
         invitation.setSender(ngo.getName());
         invitation.setReceivers(volunteerEmails);
+
+        actionService.createActionsForVolunteers(volunteerId, eventId);
 
         return invitationRepository.save(invitation);
     }

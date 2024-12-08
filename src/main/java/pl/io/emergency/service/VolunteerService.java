@@ -41,7 +41,7 @@ public class VolunteerService {
         Action action = actionRepository.findById(actionId)
                 .orElseThrow(() -> new IllegalArgumentException("Action with ID " + actionId + " does not exist."));
 
-        if (!Integer.valueOf(action.getVolunteerId()).equals(volunteer.getId().intValue())) {
+        if (!Integer.valueOf(String.valueOf(action.getVolunteerId())).equals(volunteer.getId().intValue())) {
             throw new IllegalStateException("Action does not belong to this volunteer.");
         }
 

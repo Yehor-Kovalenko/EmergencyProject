@@ -17,11 +17,11 @@ public class Action implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int actionId;
 
-    private int volunteerId;
+    private Long volunteerId;
 
     private float ratingFromAction;
 
-    private long catastropheId;
+    private Long catastropheId;
 
     private boolean attendance;
 
