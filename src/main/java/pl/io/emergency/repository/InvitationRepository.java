@@ -1,4 +1,11 @@
 package pl.io.emergency.repository;
 
-public interface InvitationRepository {
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import pl.io.emergency.entity.Invitation;
+
+@Repository
+public interface InvitationRepository extends JpaRepository<Invitation, Long> {
+
 }
