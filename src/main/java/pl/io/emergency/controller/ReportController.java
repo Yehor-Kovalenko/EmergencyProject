@@ -9,13 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.io.emergency.entity.Giver;
 import pl.io.emergency.entity.Report;
 import pl.io.emergency.service.ReportService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Controller managing API endpoints for generating reports about giver, resources, emergencies, history, etc.
@@ -45,7 +43,7 @@ public class ReportController {
         Map<String, String> response = new HashMap<>();
         Report report = reportService.getGiverReport(giverId);
 //        response.put("report", report);
-
+        log.info("Report created: {}", report.getDatabaseData());
         return ResponseEntity.status(HttpStatus.OK).body(report);
     }
 }

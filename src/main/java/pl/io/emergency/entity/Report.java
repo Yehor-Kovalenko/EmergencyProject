@@ -1,14 +1,17 @@
 package pl.io.emergency.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import java.util.List;
+
 @Entity
 @Table(name = "REPORT")
-public class Report implements Serializable {
+public class Report<T> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -23,12 +26,24 @@ public class Report implements Serializable {
     @Column(name = "dateTo")
     private LocalDateTime dateTo;
 
+    @JsonIgnore
     @Lob
     @Column(name = "data", columnDefinition = "TEXT")
-    private String data;
+    private String databaseData;
+
+    @Transient
+    private List<T> data;
+
+    public List<T> getData() {
+        return data;
+    }
+
+    public void setData(List<T> data) {
+        this.data = data;
+    }
 
     // Constructor for reports with dates
-    public Report(LocalDateTime timestamp, LocalDateTime dateFrom, LocalDateTime dateTo, String data) {
+    public Report(LocalDateTime timestamp, LocalDateTime dateFrom, LocalDateTime dateTo, List<T> data) {
         this.timestamp = timestamp;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
@@ -36,7 +51,7 @@ public class Report implements Serializable {
     }
 
     // Constructor for reports without dates
-    public Report(LocalDateTime timestamp, String data) {
+    public Report(LocalDateTime timestamp, List<T> data) {
         this.timestamp = timestamp;
         this.data = data;
     }
@@ -65,12 +80,12 @@ public class Report implements Serializable {
         this.dateTo = dateTo;
     }
 
-    public String getData() {
-        return data;
+    public String getDatabaseData() {
+        return databaseData;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDatabaseData(String databaseData) {
+        this.databaseData = databaseData;
     }
 }
 
