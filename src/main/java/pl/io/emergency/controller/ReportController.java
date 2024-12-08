@@ -9,12 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.io.emergency.entity.ExampleEntity;
 import pl.io.emergency.entity.Giver;
-import pl.io.emergency.service.ExampleService;
+import pl.io.emergency.entity.Report;
+import pl.io.emergency.service.ReportService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Controller managing API endpoints for generating reports about giver, resources, emergencies, history, etc.
@@ -23,10 +24,10 @@ import java.util.Map;
 @RequestMapping("/api/report")
 public class ReportController {
     private static final Logger log = LoggerFactory.getLogger(ReportController.class);
-    private final ExampleService exampleService;
+    private final ReportService reportService;
 
-    public ReportController(ExampleService exampleService) {
-        this.exampleService = exampleService;
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
         log.info("Service instantiated");
     }
 
@@ -40,9 +41,11 @@ public class ReportController {
     @PostMapping("/giver")
     public ResponseEntity<?> getGiverReport(@RequestParam(required = true) long giverId) {
         log.info("Giver report requested with id {}", giverId);
+
         Map<String, String> response = new HashMap<>();
-        String messageResponse = "You passed id: " + giverId;
-        response.put("message", messageResponse);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        Report report = reportService.getGiverReport(giverId);
+//        response.put("report", report);
+
+        return ResponseEntity.status(HttpStatus.OK).body(report);
     }
 }
