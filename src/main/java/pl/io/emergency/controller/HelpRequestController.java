@@ -1,6 +1,8 @@
 package pl.io.emergency.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,10 @@ public class HelpRequestController {
     private EventService eventService;
 
     @Operation(summary = "Create a new help request", description = "Creates a new help request for a specified catastrophe")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Help request created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
+    })
     @PostMapping("/catastrophe/{catastropheId}")
     public ResponseEntity<HelpRequest> createHelpRequest(
             @PathVariable Long catastropheId,
@@ -28,6 +34,10 @@ public class HelpRequestController {
     }
 
     @Operation(summary = "Retrieve a help request by unique code", description = "Fetches a help request using its unique identifier")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Help request found"),
+            @ApiResponse(responseCode = "404", description = "Help request not found")
+    })
     @GetMapping("/{uniqueCode}")
     public ResponseEntity<HelpRequest> getHelpRequestByUniqueCode(@PathVariable String uniqueCode) {
         return eventService.getHelpRequestByUniqueCode(uniqueCode)
@@ -36,6 +46,11 @@ public class HelpRequestController {
     }
 
     @Operation(summary = "Update an existing help request", description = "Updates details of an existing help request identified by its unique code")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Help request updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data"),
+            @ApiResponse(responseCode = "404", description = "Help request not found")
+    })
     @PutMapping("/{uniqueCode}")
     public ResponseEntity<HelpRequestDTO> updateHelpRequest(
             @PathVariable String uniqueCode,
