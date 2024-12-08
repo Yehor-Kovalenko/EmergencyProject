@@ -2,12 +2,13 @@ package pl.io.emergency.entity;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Volunteer extends User {
