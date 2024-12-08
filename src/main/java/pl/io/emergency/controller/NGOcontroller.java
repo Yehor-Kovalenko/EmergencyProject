@@ -40,12 +40,18 @@ public class NGOcontroller {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of NGOs"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+
     @GetMapping
     public ResponseEntity<List<NGO>> getAllNGOs() {
         log.info("Fetching all NGOs");
         List<NGO> ngos = ngoService.getAllNGOs();
+        if (ngos.isEmpty()) {
+            log.info("No NGOs found.");
+            return ResponseEntity.ok(ngos); // Zwrot pustej listy
+        }
         return ResponseEntity.ok(ngos);
     }
+
 
     @Operation(
             summary = "Get volunteers for an NGO",

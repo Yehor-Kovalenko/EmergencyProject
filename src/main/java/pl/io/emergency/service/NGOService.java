@@ -16,7 +16,7 @@ public class NGOService {
 
     private final UserRepository userRepository;
     private final InvitationRepository invitationRepository;
-    private VolunteerService volunteerService;
+    public VolunteerService volunteerService;
 
     public NGOService(UserRepository userRepository, InvitationRepository invitationRepository) {
         this.userRepository = userRepository;
