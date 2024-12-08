@@ -3,6 +3,7 @@ package pl.io.emergency.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.io.emergency.entity.HelpRequestStatus;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ public class HelpRequestDTOResponse {
     private String lastName;
     private String email;
     private String description;
+    private HelpRequestStatus status;
     private String uniqueCode;
     private LocalDateTime reportedDate;
 }
