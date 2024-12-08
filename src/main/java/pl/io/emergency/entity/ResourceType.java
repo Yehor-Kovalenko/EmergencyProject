@@ -1,4 +1,4 @@
-package pl.io.emergency.resource;
+package pl.io.emergency.entity;
 
 public enum ResourceType {
     CLOTHES,

@@ -1,4 +1,4 @@
-package pl.io.emergency.resource;
+package pl.io.emergency.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.io.emergency.entity.ResourceDto;
+import pl.io.emergency.service.ResourceService;
 
 /**
  * Controller providing access to the API endpoints for managing resources.

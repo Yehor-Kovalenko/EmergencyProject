@@ -1,7 +1,11 @@
-package pl.io.emergency.resource;
+package pl.io.emergency.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.io.emergency.repository.ResourceRepositorium;
+import pl.io.emergency.entity.ResourceDto;
+import pl.io.emergency.entity.ResourceEntity;
+import pl.io.emergency.entity.ResourceType;
 
 @Service
 public class ResourceService {

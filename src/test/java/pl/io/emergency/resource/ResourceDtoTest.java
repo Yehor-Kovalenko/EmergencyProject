@@ -1,10 +1,11 @@
 package pl.io.emergency.resource;
 
 import org.junit.jupiter.api.Test;
-import pl.io.emergency.resource.ResourceDto;
+import pl.io.emergency.entity.ResourceDto;
+import pl.io.emergency.entity.ResourceStatus;
+import pl.io.emergency.entity.ResourceType;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.time.LocalDate;
 
 //@SpringBootTest
 //@ContextConfiguration(classes = {Resource.class, S3ClientConfig.class})

@@ -6,7 +6,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+//@Builder
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Official extends User {

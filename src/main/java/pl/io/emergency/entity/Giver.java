@@ -7,7 +7,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+//@Builder
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Giver extends User {
