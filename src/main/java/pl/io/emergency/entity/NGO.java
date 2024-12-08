@@ -11,8 +11,16 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class NGO extends User {
-    private String ngoName;
+    private String name;
     private String krs;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getKrs() {
+        return krs;
+    }
 }
 
 
