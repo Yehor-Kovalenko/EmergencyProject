@@ -93,7 +93,7 @@ public class NGOController {
     })
     @PostMapping("/{ngoId}/volunteers/{volunteerId}/mark")
     public ResponseEntity<Void> markVolunteer(@PathVariable Long ngoId, @PathVariable Long volunteerId,
-                                              @RequestParam Long actionId, @RequestParam float rating) {
+                                              @RequestParam int actionId, @RequestParam float rating) {
         log.info("Marking volunteer ID: {} for action ID: {} in NGO ID: {}", volunteerId, actionId, ngoId);
         ngoService.markVolunteer(volunteerId, actionId, rating);
         return ResponseEntity.ok().build();

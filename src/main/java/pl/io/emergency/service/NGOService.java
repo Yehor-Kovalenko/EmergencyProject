@@ -74,7 +74,7 @@ public class NGOService {
     }
 
     // Ocenia wolontariusza
-    public void markVolunteer(Long volunteerId, Long actionId, float rating) {
+    public void markVolunteer(Long volunteerId, int actionId, float rating) {
         Volunteer volunteer = volunteerRepository.findById(volunteerId)
                 .orElseThrow(() -> new IllegalArgumentException("Volunteer with ID " + volunteerId + " does not exist."));
 

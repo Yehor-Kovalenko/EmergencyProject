@@ -34,11 +34,11 @@ public class VolunteerService {
                 .orElse(0.0);
     }
 
-    public void getMarked(Long volunteerId, Long actionId, float rating) {
+    public void getMarked(Long volunteerId, int actionId, float rating) {
         Volunteer volunteer = volunteerRepository.findById(volunteerId)
                 .orElseThrow(() -> new IllegalArgumentException("Volunteer with ID " + volunteerId + " does not exist."));
 
-        Action action = actionRepository.findById(actionId)
+        Action action = actionRepository.findById((long) actionId)
                 .orElseThrow(() -> new IllegalArgumentException("Action with ID " + actionId + " does not exist."));
 
         if (!Integer.valueOf(String.valueOf(action.getVolunteerId())).equals(volunteer.getId().intValue())) {
