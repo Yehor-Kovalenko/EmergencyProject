@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.util.List;
@@ -21,10 +22,10 @@ public class Report<T> implements Serializable {
     private LocalDateTime timestamp;
 
     @Column(name = "dateFrom")
-    private LocalDateTime dateFrom;
+    private LocalDate dateFrom;
 
     @Column(name = "dateTo")
-    private LocalDateTime dateTo;
+    private LocalDate dateTo;
 
     @JsonIgnore
     @Lob
@@ -33,6 +34,18 @@ public class Report<T> implements Serializable {
 
     @Transient
     private List<T> data;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reportType")
+    private ReportType reportType;
+
+    public ReportType getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(ReportType reportType) {
+        this.reportType = reportType;
+    }
 
     public List<T> getData() {
         return data;
@@ -43,17 +56,19 @@ public class Report<T> implements Serializable {
     }
 
     // Constructor for reports with dates
-    public Report(LocalDateTime timestamp, LocalDateTime dateFrom, LocalDateTime dateTo, List<T> data) {
+    public Report(ReportType reportType, LocalDateTime timestamp, LocalDate dateFrom, LocalDate dateTo, List<T> data) {
         this.timestamp = timestamp;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.data = data;
+        this.reportType = reportType;
     }
 
     // Constructor for reports without dates
     public Report(LocalDateTime timestamp, List<T> data) {
         this.timestamp = timestamp;
         this.data = data;
+        this.reportType = ReportType.GIVER;
     }
 
     public LocalDateTime getTimestamp() {
@@ -64,19 +79,19 @@ public class Report<T> implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public LocalDateTime getDateFrom() {
+    public LocalDate getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(LocalDateTime dateFrom) {
+    public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public LocalDateTime getDateTo() {
+    public LocalDate getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(LocalDateTime dateTo) {
+    public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
     }
 
