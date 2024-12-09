@@ -1,4 +1,7 @@
-package pl.io.emergency.entity;
+package pl.io.emergency.dto;
+
+import pl.io.emergency.entity.ResourceStatus;
+import pl.io.emergency.entity.ResourceType;
 
 import java.time.LocalDate;
 

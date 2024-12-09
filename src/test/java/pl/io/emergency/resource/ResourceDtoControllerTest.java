@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import pl.io.emergency.controller.ResourceController;
-import pl.io.emergency.entity.ResourceDto;
+import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceStatus;
 import pl.io.emergency.entity.ResourceType;
 
