@@ -2,7 +2,7 @@ package pl.io.emergency.resource;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import pl.io.emergency.entity.ResourceDto;
+import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceEntity;
 import pl.io.emergency.entity.ResourceStatus;
 import pl.io.emergency.entity.ResourceType;

@@ -1,7 +1,7 @@
 package pl.io.emergency.resource;
 
 import org.junit.jupiter.api.Test;
-import pl.io.emergency.entity.ResourceDto;
+import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceStatus;
 import pl.io.emergency.entity.ResourceType;
 
