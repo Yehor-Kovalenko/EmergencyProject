@@ -48,7 +48,6 @@ public class MessageController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Messages retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "No messages found for the given receiver ID"),
-            @ApiResponse(responseCode = "400", description = "Invalid receiver ID provided")
     })
     @GetMapping("/check/{receiverId}")
     public ResponseEntity<List<MessageEntity>> getMessages(@PathVariable long receiverId) {
