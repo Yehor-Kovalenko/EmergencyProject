@@ -142,5 +142,24 @@ public class ResourceService {
         return convertToDto(resource);
     }
 
+    public ResourceDto updateResourceDestination(Long resourceId, Long newDestinationId) {
+        // Pobranie zasobu z repozytorium na podstawie resourceId
+        ResourceEntity resource = resourceRepositorium.findById(resourceId).orElse(null);
+
+        if (resource == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource with ID " + resourceId + " not found.");
+        }
+
+        // Aktualizacja destinationId
+        resource.setDestinationId(newDestinationId);
+
+        // Zapisanie zaktualizowanego zasobu w repozytorium
+        ResourceEntity updatedResource = resourceRepositorium.save(resource);
+
+        // Przekształcenie zaktualizowanej encji na DTO
+        return convertToDto(updatedResource);
+    }
+
+
 
 }

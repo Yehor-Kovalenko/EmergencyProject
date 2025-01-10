@@ -208,4 +208,29 @@ public class ResourceController {
         return ResponseEntity.ok(updatedResource);  // Zwróć 200 OK z zaktualizowanym zasobem
     }
 
+    @Operation(
+            summary = "Update destinationId of an existing resource",
+            description = "Allows updating the destinationId of an existing resource."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resource destination successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Resource not found")
+    })
+    @PutMapping("/updateDestination/{resourceId}")
+    public ResponseEntity<ResourceDto> updateResourceDestination(
+            @PathVariable Long resourceId,
+            @RequestParam Long newDestinationId) {
+        log.info("Updating destinationId of resource with id {} to {}", resourceId, newDestinationId);
+
+        try {
+            // Wywołanie metody serwisowej do zmiany destinationId
+            ResourceDto updatedResource = resourceService.updateResourceDestination(resourceId, newDestinationId);
+
+            return ResponseEntity.ok(updatedResource);  // Zwróć 200 OK z zaktualizowanym zasobem
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(null);  // Zwróć odpowiedni status w przypadku błędu
+        }
+    }
+
+
 }

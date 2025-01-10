@@ -300,4 +300,50 @@ public class ResourceDtoControllerTest {
         assertEquals(404, response.getStatusCodeValue());  // Spodziewamy się statusu 404 Not Found
     }
 
+    @Test
+    public void testUpdateResourceDestination_Success() throws Exception {
+        // Przygotowanie danych testowych
+        Long resourceId = 1L;
+        Long newDestinationId = 3L;
+        ResourceType type = ResourceType.CLOTHES;
+        String description = "First Aid Kit";
+        Double amount = 50.0;
+        Long holderId = 2L;
+
+        // Tworzenie mocka repozytorium
+        ResourceRepositorium resourceRepositorium = Mockito.mock(ResourceRepositorium.class);
+
+        // Tworzymy zasób, który będzie aktualizowany
+        ResourceEntity existingResource = new ResourceEntity(type, description, amount, 1L, holderId);
+        existingResource.setId(resourceId);  // Ustawiamy ID zasobu
+
+        // Mockowanie metody findById, aby zwróciła nasz istniejący zasób
+        when(resourceRepositorium.findById(resourceId)).thenReturn(java.util.Optional.of(existingResource));
+
+        // Tworzymy obiekt serwisu
+        ResourceService resourceService = new ResourceService(resourceRepositorium);
+
+        // Tworzymy mocka kontrolera
+        ResourceController resourceController = new ResourceController(resourceService);
+
+        // Tworzymy mocka zaktualizowanego zasobu
+        ResourceEntity updatedResource = new ResourceEntity(type, description, amount, newDestinationId, holderId);
+        updatedResource.setId(resourceId);  // Zaktualizowane ID
+
+        // Mockowanie metody save, aby zwróciła zaktualizowany zasób
+        when(resourceRepositorium.save(any(ResourceEntity.class))).thenReturn(updatedResource);
+
+        // Perform the request to update the resource destination
+        ResponseEntity<ResourceDto> response = resourceController.updateResourceDestination(resourceId, newDestinationId);
+
+        // Assert the response
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());  // Oczekujemy statusu 200 OK
+
+        ResourceDto updatedResourceDto = response.getBody();
+        assert updatedResourceDto != null;
+        assertEquals(newDestinationId, updatedResourceDto.getDestinationId());  // Sprawdzamy, czy destinationId zostało zaktualizowane
+        assertEquals(resourceId, updatedResourceDto.getId());  // Sprawdzamy, czy zwrócony zasób ma poprawne ID
+    }
+
 }

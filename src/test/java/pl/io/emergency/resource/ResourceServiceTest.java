@@ -2,6 +2,7 @@ package pl.io.emergency.resource;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
 import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceEntity;
 import pl.io.emergency.entity.ResourceStatus;
@@ -262,4 +263,35 @@ public class ResourceServiceTest {
         // Assert that the result is null
         assertNull(updatedResource);
     }
+
+    @Test
+    public void testUpdateResourceDestination_Success() {
+        // Mock repository
+        ResourceRepositorium resourceRepositorium = Mockito.mock(ResourceRepositorium.class);
+
+        // ResourceService using mock repository
+        ResourceService resourceService = new ResourceService(resourceRepositorium);
+
+        // Test data
+        Long resourceId = 1L;
+        Long newDestinationId = 3L;
+        ResourceEntity existingResource = new ResourceEntity(ResourceType.CLOTHES, "First Aid Kit", 20.0, 1L, 2L);
+        existingResource.setId(resourceId);
+
+        // Mock repository methods
+        when(resourceRepositorium.findById(resourceId)).thenReturn(java.util.Optional.of(existingResource));
+        when(resourceRepositorium.save(any(ResourceEntity.class))).thenReturn(existingResource);
+
+        // Call the service method
+        ResourceDto updatedResourceDto = resourceService.updateResourceDestination(resourceId, newDestinationId);
+
+        // Assert that the destinationId has been updated
+        assertNotNull(updatedResourceDto);
+        assertEquals(newDestinationId, updatedResourceDto.getDestinationId());
+
+        // Verify that save was called once with the updated resource
+        verify(resourceRepositorium, times(1)).save(existingResource);
+    }
+
+
 }
