@@ -131,10 +131,6 @@ public class ResourceController {
         // Wywołanie serwisowej metody findResourcesByHolderId
         List<ResourceDto> resources = resourceService.findResourcesByHolderId(holderId);
 
-        if (resources.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Zwracamy 404, jeśli nie ma zasobów
-        }
-
         return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów
     }
 
@@ -153,10 +149,6 @@ public class ResourceController {
         // Wywołanie serwisowej metody findResourcesByDestinationId
         List<ResourceDto> resources = resourceService.findResourcesByDestinationId(destinationId);
 
-        if (resources.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Zwracamy 404, jeśli nie ma zasobów
-        }
-
-        return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów
+        return ResponseEntity.ok(resources); // Zwróć 200 OK z listą zasobów
     }
 }
