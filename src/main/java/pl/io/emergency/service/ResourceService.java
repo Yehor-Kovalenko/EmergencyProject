@@ -2,6 +2,7 @@ package pl.io.emergency.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.io.emergency.entity.ResourceStatus;
 import pl.io.emergency.repository.ResourceRepositorium;
 import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceEntity;
@@ -24,48 +25,49 @@ public class ResourceService {
     }
 
 
-    public ResourceDto CreateResourceToDestination(String type, String description, double amount, Long destinationId, Long holderId)
+    public ResourceDto CreateResourceToDestination(ResourceType type, String description, double amount, Long destinationId, Long holderId) {
+        // Create the ResourceEntity that will be saved
+        ResourceEntity resourceEntity = new ResourceEntity(type, description, amount, destinationId, holderId);
+
+        // Save the entity to the repository
+        ResourceEntity savedEntity = resourceRepositorium.save(resourceEntity);  // Save the entity
+
+        // Create a ResourceDto from the saved entity
+        ResourceDto resourceDto = new ResourceDto();
+        resourceDto.setId(savedEntity.getId());
+        resourceDto.setType(savedEntity.getResourceType());
+        resourceDto.setDescription(savedEntity.getDescription());
+        resourceDto.setAmount(savedEntity.getAmount());
+        resourceDto.setDestinationId(savedEntity.getDestinationId());
+        resourceDto.setHolderId(savedEntity.getHolderId());
+        resourceDto.setStatus(ResourceStatus.READY);  // Set the status
+
+        // Return the created ResourceDto
+        return resourceDto;
+    }
+
+
+
+
+    public ResourceDto CreateResourceToDonate(ResourceType type, String description, double amount, Long holderId)
     {
         try {
-            ResourceType paramType = ResourceType.valueOf(type);
+            // Bezpośrednie użycie ResourceType zamiast String
+            ResourceDto r = new ResourceDto(type, description, amount, holderId); // Tworzymy DTO
+            ResourceEntity entity = new ResourceEntity(type, description, amount, holderId); // Tworzymy encję
 
-            ResourceDto r = new ResourceDto(paramType, description, amount, destinationId, holderId);
-            ResourceEntity entity = new ResourceEntity(paramType, description, amount, destinationId, holderId);
-
+            // Zapisujemy encję w repozytorium
             ResourceEntity entitySave =  resourceRepositorium.save(entity);
             r.setId(entitySave.getId());
             r.setDate(entitySave.getDate_of_registration());
 
             return r;
-        } catch (IllegalArgumentException e) {
-            // Błąd w przypadku nieprawidłowego typu
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid type provided: " + type, e);
         } catch (Exception e) {
-            // Obsługa innych wyjątków
+            // Obsługa wyjątków
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid: " + type, e);
         }
     }
 
-    public ResourceDto CreateResourceToDonate(String type, String description, double amount, Long holderId)
-    {
-        try {
-            ResourceType paramType = ResourceType.valueOf(type);
-            ResourceDto r = new ResourceDto(paramType, description, amount, holderId);
-            ResourceEntity entity = new ResourceEntity(paramType, description, amount, holderId);
-
-            ResourceEntity entitySave =  resourceRepositorium.save(entity);
-            r.setId(entitySave.getId());
-            r.setDate(entitySave.getDate_of_registration());
-
-            return r;
-        } catch (IllegalArgumentException e) {
-            // Błąd w przypadku nieprawidłowego typu
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid type provided: " + type, e);
-        } catch (Exception e) {
-            // Obsługa innych wyjątków
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid: " + type, e);
-        }
-    }
 
     // Nowa metoda do pobierania zasobów według holderId
     public List<ResourceDto> findResourcesByHolderId(Long holderId) {
@@ -115,4 +117,30 @@ public class ResourceService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching resources by destinationId", e);
         }
     }
+
+    // Konwersja z ResourceEntity na ResourceDto
+    public ResourceDto convertToDto(ResourceEntity resourceEntity) {
+        return new ResourceDto(
+                resourceEntity.getId(),
+                resourceEntity.getResourceType(),
+                resourceEntity.getDescription(),
+                resourceEntity.getAmount(),
+                resourceEntity.getDate_of_registration(),
+                resourceEntity.getResourceStatus(),
+                resourceEntity.getDestinationId(),
+                resourceEntity.getHolderId()
+        );
+    }
+
+    public ResourceDto updateResourceStatus(Long resourceId, ResourceStatus status) {
+        ResourceEntity resource = resourceRepositorium.findById(resourceId).orElse(null);
+        if (resource == null) {
+            return null; // lub możesz rzucić wyjątek typu ResourceNotFoundException, jeśli chcesz
+        }
+        resource.setResourceStatus(status);
+        resourceRepositorium.save(resource);
+        return convertToDto(resource);
+    }
+
+
 }
