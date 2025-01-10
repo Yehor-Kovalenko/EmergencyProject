@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.service.ResourceService;
 
+import java.util.List;
+
 /**
  * Controller providing access to the API endpoints for managing resources.
  */
@@ -73,7 +75,7 @@ public class ResourceController {
                                                                     @RequestParam(required = true) Long destinationId,
                                                                     @RequestParam(required = true) Long holderId)
     {
-        ResourceDto resourceDto = resourceService.CreateRespurceToDestination(type, description, amount, destinationId, holderId);
+        ResourceDto resourceDto = resourceService.CreateResourceToDestination(type, description, amount, destinationId, holderId);
         return ResponseEntity.ok(resourceDto);
     }
 
@@ -93,5 +95,46 @@ public class ResourceController {
     {
         ResourceDto resourceDto = resourceService.CreateResourceToDonate(type, description, amount, holderId);
         return ResponseEntity.ok(resourceDto);
+    }
+
+    //dodanie gdy dostep do zalogowanego
+    /*@Operation(
+            summary = "Create a new resource to warehouse",
+            description = "Allows adding a new resource with necessary details like type, description, amount, etc."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resource successfully created"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
+    })
+    @PostMapping("/donate")
+    public ResponseEntity<ResourceDto> createResourceToWarehouse (@RequestParam(required = true) String type,
+                                                               @RequestParam(required = true) String description,
+                                                               @RequestParam(required = true) double amount,
+                                                               @RequestParam(required = true) Long holderId)
+    {
+        ResourceDto resourceDto = resourceService.CreateResourceToDonate(type, description, amount, /*current user const holderId);
+        return ResponseEntity.ok(resourceDto);
+    }*/
+
+    @Operation(
+            summary = "Get resources by holderId",
+            description = "Fetches all resources associated with a specific holderId"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resources successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "No resources found for the given holderId")
+    })
+    @GetMapping("/getByholder/{holderId}")
+    public ResponseEntity<List<ResourceDto>> getResourcesByHolderId(@PathVariable Long holderId) {
+        log.info("Fetching resources for holderId: {}", holderId);
+
+        // Wywołanie serwisowej metody findResourcesByHolderId
+        List<ResourceDto> resources = resourceService.findResourcesByHolderId(holderId);
+
+        if (resources.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Zwracamy 404, jeśli nie ma zasobów
+        }
+
+        return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów
     }
 }

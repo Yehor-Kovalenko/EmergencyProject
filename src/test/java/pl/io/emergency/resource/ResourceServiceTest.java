@@ -9,7 +9,9 @@ import pl.io.emergency.entity.ResourceType;
 import pl.io.emergency.repository.ResourceRepositorium;
 import pl.io.emergency.service.ResourceService;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,7 +40,7 @@ public class ResourceServiceTest {
         Mockito.when(resourceRepositorium.save(Mockito.any(ResourceEntity.class))).thenReturn(mockEntity);
 
         // Wywołujemy metodę serwisu, która zapisuje encję
-        ResourceDto resourceDto = resourceService.CreateRespurceToDestination(type.name(), description, amount, destinationId, holderId);
+        ResourceDto resourceDto = resourceService.CreateResourceToDestination(type.name(), description, amount, destinationId, holderId);
 
         // Sprawdzamy, czy dane w obiekcie DTO są poprawne
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
@@ -99,4 +101,48 @@ public class ResourceServiceTest {
         assertEquals(1, resourceRepositorium.findAll().size());
     }
 
+    @Test
+    public void findResourcesByHolderIdTest() {
+        // Tworzymy mocka repozytorium
+        ResourceRepositorium resourceRepositorium = Mockito.mock(ResourceRepositorium.class);
+
+        // Tworzymy obiekt serwisu, który używa tego repozytorium
+        ResourceService resourceService = new ResourceService(resourceRepositorium);
+
+        // Przygotowanie danych testowych
+        ResourceType type = ResourceType.CLOTHES;
+        String description1 = "Winter jackets";
+        double amount1 = 10.0;
+        Long holderId = 2L;
+        Long destinationId = 1L;
+
+        ResourceEntity resource1 = new ResourceEntity(type, description1, amount1, destinationId, holderId);
+        resource1.setId(1L);  // Ustawiamy ID
+        resource1.setDate_of_registration(LocalDate.now());
+
+        String description2 = "First aid kits";
+        double amount2 = 20.0;
+
+        ResourceEntity resource2 = new ResourceEntity(type, description2, amount2, holderId);
+        resource2.setId(2L);  // Ustawiamy ID
+        resource2.setDate_of_registration(LocalDate.now());
+
+        // Zamockowanie repozytorium
+        Mockito.when(resourceRepositorium.findByHolderId(holderId)).thenReturn(Arrays.asList(resource1, resource2));
+
+        // Wywołanie metody serwisowej
+        List<ResourceDto> result = resourceService.findResourcesByHolderId(holderId);
+
+        // Sprawdzamy, czy wynik jest zgodny z oczekiwaniami
+        assertEquals(2, result.size(), "Powinna być 2 zasoby dla holderId=2");
+
+        // Sprawdzamy, czy dane są poprawnie mapowane
+        assertEquals("Winter jackets", result.get(0).getDescription(), "Pierwszy zasób ma być 'Winter jackets'");
+        assertEquals("First aid kits", result.get(1).getDescription(), "Drugi zasób ma być 'First aid kits'");
+        assertEquals(1L, result.get(0).getId(), "ID pierwszego zasobu");
+        assertEquals(2L, result.get(1).getId(), "ID drugiego zasobu");
+
+        // Weryfikujemy, czy repozytorium zostało wywołane z odpowiednim parametrem
+        Mockito.verify(resourceRepositorium, Mockito.times(1)).findByHolderId(holderId);
+    }
 }
