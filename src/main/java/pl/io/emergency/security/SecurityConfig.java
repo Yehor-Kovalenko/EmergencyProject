@@ -11,11 +11,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SecurityConfig {
 
+    private final JwtUtil jwtUtil;
+
+    public SecurityConfig(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(auth -> auth.anyRequest().permitAll()) // Allow all requests
-                .csrf().disable(); // Disable CSRF for testing purposes
+                .csrf().disable() // Disable CSRF for testing purposes
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/api/auth/").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilter(new JwtAuthenticationFilter(jwtUtil));
         return http.build();
     }
 
