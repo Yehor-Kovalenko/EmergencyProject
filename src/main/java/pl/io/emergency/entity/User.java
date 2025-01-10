@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@Table(name = "app_user")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
