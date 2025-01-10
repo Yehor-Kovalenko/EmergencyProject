@@ -144,7 +144,6 @@ public class ResourceController {
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Resources successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "No resources found for the given holderId")
     })
     @GetMapping("/getByholder/{holderId}")
     public ResponseEntity<List<ResourceDto>> getResourcesByHolderId(@PathVariable Long holderId) {
@@ -152,11 +151,6 @@ public class ResourceController {
 
         // Wywołanie serwisowej metody findResourcesByHolderId
         List<ResourceDto> resources = resourceService.findResourcesByHolderId(holderId);
-
-        if (resources.isEmpty()) {
-            // Zwrócenie 404, jeśli nie znaleziono zasobów
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No resources found for holder with id: " + holderId);
-        }
 
         return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów
     }
@@ -168,7 +162,6 @@ public class ResourceController {
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Resources successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "No resources found for the given destinationId")
     })
     @GetMapping("/getBydestination/{destinationId}")
     public ResponseEntity<List<ResourceDto>> getResourcesByDestinationId(@PathVariable Long destinationId) {
@@ -176,11 +169,6 @@ public class ResourceController {
 
         // Wywołanie serwisowej metody findResourcesByDestinationId
         List<ResourceDto> resources = resourceService.findResourcesByDestinationId(destinationId);
-
-        if (resources.isEmpty()) {
-            // Rzucenie wyjątku, jeśli brak zasobów
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No resources found for destinationId: " + destinationId);
-        }
 
         return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów, jeśli znaleziono jakieś zasoby
     }

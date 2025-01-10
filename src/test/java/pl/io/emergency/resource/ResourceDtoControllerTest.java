@@ -143,31 +143,6 @@ public class ResourceDtoControllerTest {
     }
 
     @Test
-    public void testGetResourcesByHolderId_Failure() {
-        // Ustalamy holderId, który nie istnieje
-        Long holderId = 999L;
-
-        // Mockowanie repozytorium, które zwróci pustą listę
-        ResourceRepositorium resourceRepositorium = Mockito.mock(ResourceRepositorium.class);
-        when(resourceRepositorium.findByHolderId(holderId)).thenReturn(Arrays.asList());
-
-        // Mockowanie serwisu
-        ResourceService resourceService = new ResourceService(resourceRepositorium);
-
-        // Mockowanie kontrolera
-        ResourceController resourceController = new ResourceController(resourceService);
-
-        // Testowanie, czy metoda rzuca wyjątek ResponseStatusException
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            resourceController.getResourcesByHolderId(holderId);
-        });
-
-        // Sprawdzamy kod statusu i komunikat
-        assertEquals(404, exception.getStatusCode().value());  // Oczekujemy kodu 404
-        assertEquals("No resources found for holder with id: " + holderId, exception.getReason());  // Spodziewany komunikat wyjątku
-    }
-
-    @Test
     public void testGetResourcesByDestinationId_Success() throws Exception {
         // Ustalamy destinationId
         Long destinationId = 1L;
@@ -211,31 +186,6 @@ public class ResourceDtoControllerTest {
         assertEquals(ResourceStatus.READY, responseBody.get(1).getStatus());
         assertEquals(destinationId, responseBody.get(1).getDestinationId());
         assertEquals(2L, responseBody.get(1).getHolderId());
-    }
-
-    @Test
-    public void testGetResourcesByDestinationId_Failure() throws Exception {
-        // Ustalamy destinationId, który nie istnieje
-        Long destinationId = 999L;
-
-        // Mockowanie repozytorium, które zwróci pustą listę
-        ResourceRepositorium resourceRepositorium = Mockito.mock(ResourceRepositorium.class);
-        when(resourceRepositorium.findByDestinationId(destinationId)).thenReturn(Arrays.asList());
-
-        // Mockowanie serwisu
-        ResourceService resourceService = new ResourceService(resourceRepositorium);
-
-        // Mockowanie kontrolera
-        ResourceController resourceController = new ResourceController(resourceService);
-
-        // Testowanie, czy metoda rzuca wyjątek ResponseStatusException
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
-            resourceController.getResourcesByDestinationId(destinationId);
-        });
-
-        // Sprawdzamy kod statusu i komunikat
-        assertEquals(404, exception.getStatusCode().value());  // Oczekujemy kodu 404
-        assertEquals("No resources found for destinationId: " + destinationId, exception.getReason());  // Spodziewany komunikat wyjątku
     }
 
     @Test
