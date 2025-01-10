@@ -12,4 +12,6 @@ public interface ResourceRepositorium extends JpaRepository<ResourceEntity, Long
 
     // Znajdź wszystkie elementy, gdzie holderId równa się podanej wartości
     List<ResourceEntity> findByHolderId(Long holderId);
+    // Znajdź wszystkie elementy, gdzie destinationId równa się podanej wartości
+    List<ResourceEntity> findByDestinationId(Long destinationId);
 }

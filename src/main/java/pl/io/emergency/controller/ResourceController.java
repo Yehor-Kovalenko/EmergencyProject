@@ -137,4 +137,26 @@ public class ResourceController {
 
         return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów
     }
+
+    @Operation(
+            summary = "Get resources by destinationId",
+            description = "Fetches all resources associated with a specific destinationId"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resources successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "No resources found for the given destinationId")
+    })
+    @GetMapping("/getBydestination/{destinationId}")
+    public ResponseEntity<List<ResourceDto>> getResourcesByDestinationId(@PathVariable Long destinationId) {
+        log.info("Fetching resources for destinationId: {}", destinationId);
+
+        // Wywołanie serwisowej metody findResourcesByDestinationId
+        List<ResourceDto> resources = resourceService.findResourcesByDestinationId(destinationId);
+
+        if (resources.isEmpty()) {
+            return ResponseEntity.notFound().build(); // Zwracamy 404, jeśli nie ma zasobów
+        }
+
+        return ResponseEntity.ok(resources); // Zwracamy 200 OK z listą zasobów
+    }
 }

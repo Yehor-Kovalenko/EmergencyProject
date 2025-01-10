@@ -91,4 +91,28 @@ public class ResourceService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching resources by holderId", e);
         }
     }
+
+    public List<ResourceDto> findResourcesByDestinationId(Long destinationId) {
+        try {
+            // Wywołujemy metodę repozytorium, aby pobrać zasoby na podstawie destinationId
+            List<ResourceEntity> resources = resourceRepositorium.findByDestinationId(destinationId);
+
+            // Konwertujemy listę encji na listę obiektów DTO
+            return resources.stream()
+                    .map(resource -> new ResourceDto(
+                            resource.getId(),                            // id
+                            resource.getResourceType(),                          // type
+                            resource.getDescription(),                   // description
+                            resource.getAmount(),                        // amount
+                            resource.getDate_of_registration(),          // date
+                            resource.getResourceStatus(),                        // status
+                            resource.getDestinationId(),                 // destinationId
+                            resource.getHolderId()                       // holderId
+                    ))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            // Obsługuje wyjątek, jeśli coś poszło nie tak
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching resources by destinationId", e);
+        }
+    }
 }
