@@ -5,22 +5,22 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+@Getter
 @Entity
 @Table(name = "Templates")
 public class TemplateEntity implements Serializable {
 
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
     private Long id;
 
-    @Getter
-    @Column(name = "title")
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String title;
 
-    @Getter
-    @Column(name = "body")
+    @Lob
+    @Column(nullable = false)
     private String body;
-
 }
