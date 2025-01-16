@@ -135,7 +135,7 @@ public class ResourceService {
     public ResourceDto updateResourceStatus(Long resourceId, ResourceStatus status) {
         ResourceEntity resource = resourceRepositorium.findById(resourceId).orElse(null);
         if (resource == null) {
-            return null; // lub możesz rzucić wyjątek typu ResourceNotFoundException, jeśli chcesz
+            return null;
         }
         resource.setResourceStatus(status);
         resourceRepositorium.save(resource);
