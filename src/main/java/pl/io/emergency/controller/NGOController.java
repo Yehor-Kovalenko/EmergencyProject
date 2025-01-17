@@ -83,19 +83,4 @@ public class NGOController {
         return ResponseEntity.ok(invitation);
     }
 
-    @Operation(
-            summary = "Mark a volunteer",
-            description = "Evaluate a specific volunteer based on their performance in an event."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully marked the volunteer"),
-            @ApiResponse(responseCode = "404", description = "Volunteer or NGO not found")
-    })
-    @PostMapping("/{ngoId}/volunteers/{volunteerId}/mark")
-    public ResponseEntity<Void> markVolunteer(@PathVariable Long ngoId, @PathVariable Long volunteerId,
-                                              @RequestParam int actionId, @RequestParam float rating) {
-        log.info("Marking volunteer ID: {} for action ID: {} in NGO ID: {}", volunteerId, actionId, ngoId);
-        ngoService.markVolunteer(volunteerId, actionId, rating);
-        return ResponseEntity.ok().build();
-    }
 }
