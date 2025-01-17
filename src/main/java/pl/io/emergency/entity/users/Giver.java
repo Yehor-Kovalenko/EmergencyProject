@@ -1,4 +1,4 @@
-package pl.io.emergency.entity;
+package pl.io.emergency.entity.users;
 
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -11,9 +11,8 @@ import java.util.Date;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Volunteer extends User {
+public class Giver extends User {
     private String firstName;
     private String lastName;
     private Date birthDate;
-    private Long organizationId;
 }

@@ -9,12 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.io.emergency.dto.RegistrationUserDto;
 import pl.io.emergency.entity.User;
 import pl.io.emergency.repository.UserRepository;
-import pl.io.emergency.service.UserService;
+import pl.io.emergency.service.AuthenticationService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class UserServiceTest {
+class AuthenticationServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -23,7 +23,7 @@ class UserServiceTest {
     private BCryptPasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UserService userService;
+    private AuthenticationService userService;
 
     @BeforeEach
     void setUp() {
