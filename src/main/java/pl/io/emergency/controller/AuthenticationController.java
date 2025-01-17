@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,11 +53,20 @@ public class AuthenticationController {
     })
     @PostMapping("/login")
     @Tag(name = "User login", description = "Operations related to user authentication")
-    public ResponseEntity<Map<String, String>> login(@RequestBody @Valid AuthRequestDto user) {
+    public ResponseEntity<?> login(@RequestBody @Valid AuthRequestDto user, HttpServletResponse response) {
         try {
-            Map<String, String> tokens = authService.loginUser(user);
-            log.info("User authenticated");
-            return ResponseEntity.ok(tokens);
+            if (!authService.loginUser(user)) {
+                log.info("User login failed");
+                return ResponseEntity.badRequest().body(null);
+            }
+            log.info("User authenticated successfully");
+
+            Map<String, String> accessToken = authService.getAccessToken(user);
+            ResponseCookie refreshToken = authService.getRefreshToken(user);
+
+            response.addHeader("Set-Cookie", refreshToken.toString());
+
+            return ResponseEntity.ok().body(accessToken);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -71,8 +80,8 @@ public class AuthenticationController {
     @Tag(name = "Refresh token", description = "Operations related to refreshing token")
     public ResponseEntity<Map<String, String>> refreshToken(@RequestBody Map<String, String> refreshRequest) {
         try {
-            Map<String, String> tokens = authService.refreshAccessToken(refreshRequest.get("refreshToken"));
-            return ResponseEntity.ok(tokens);
+            Map<String, String> token = authService.refreshAccessToken(refreshRequest.get("refreshToken"));
+            return ResponseEntity.ok().body(token);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
