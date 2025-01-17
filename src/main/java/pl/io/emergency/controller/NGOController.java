@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Controller providing access to the API endpoints for managing NGOs.
  */
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/ngo")
 @Tag(name = "NGO Management", description = "Operations related to NGO management")

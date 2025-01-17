@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Controller providing access to the API endpoints for managing Volunteers.
  */
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/volunteers")
 @Tag(name = "Volunteer Management", description = "Operations related to managing volunteers")
