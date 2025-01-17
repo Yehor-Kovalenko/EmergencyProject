@@ -18,7 +18,8 @@ public class JwtUtil {
 
     public String generateAccessToken(User user) {
         return Jwts.builder()
-                .subject(user.getUsername())
+                .subject(user.getId().toString())
+                .id(user.getId().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
                 .signWith(secretKey)
@@ -27,7 +28,7 @@ public class JwtUtil {
 
     public String generateRefreshToken(User user) {
         return Jwts.builder()
-                .subject(user.getUsername())
+                .subject(user.getId().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
                 .signWith(secretKey)
@@ -49,5 +50,9 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         return extractClaims(token).getPayload().getSubject();
+    }
+
+    public String extractId(String token) {
+        return extractClaims(token).getPayload().getId();
     }
 }
