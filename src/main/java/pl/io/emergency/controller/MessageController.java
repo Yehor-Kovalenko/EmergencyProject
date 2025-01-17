@@ -36,8 +36,10 @@ public class MessageController {
         boolean isSent = messageService.sendMessage(message.getSenderId(), message.getReceiverId(), message.getTitle(), message.getBody());
         Map<String, String> response = new HashMap<>();
         if (isSent) {
+            response.put("message", "Message sent successfully");
             return ResponseEntity.ok(response);
         } else {
+            response.put("error", "Failed to send message");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
@@ -45,6 +47,7 @@ public class MessageController {
     @Operation(summary = "Get messages for a receiver", description = "Retrieve all messages for a specific receiver")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Messages retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "No messages found for the given receiver ID"),
     })
     @GetMapping("/check/{receiverId}")
     public ResponseEntity<List<MessageEntity>> getMessages(@PathVariable long receiverId) {
