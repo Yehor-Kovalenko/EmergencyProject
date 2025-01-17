@@ -1,4 +1,4 @@
-package pl.io.emergency.entity;
+package pl.io.emergency.entity.users;
 
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -10,9 +10,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class NGO extends User {
-    private String ngoName;
-    private String krs;
+public class Official extends User {
+    private String officialName;
+    private String regon;
 }
-
-

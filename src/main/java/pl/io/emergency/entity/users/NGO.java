@@ -1,9 +1,8 @@
-package pl.io.emergency.entity;
+package pl.io.emergency.entity.users;
 
 import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -11,8 +10,9 @@ import java.util.Date;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Giver extends User {
-    private String firstName;
-    private String lastName;
-    private Date birthDate;
+public class NGO extends User {
+    private String ngoName;
+    private String krs;
 }
+
+
