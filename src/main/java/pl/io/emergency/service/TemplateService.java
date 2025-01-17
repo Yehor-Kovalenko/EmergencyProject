@@ -1,7 +1,6 @@
 package pl.io.emergency.service;
 
 import org.springframework.stereotype.Service;
-import pl.io.emergency.entity.Role;
 import pl.io.emergency.entity.TemplateEntity;
 import pl.io.emergency.repository.TemplateRepository;
 
@@ -15,8 +14,8 @@ public class TemplateService {
         this.templateRepository = templateRepository;
     }
 
-    public TemplateEntity getTemplateById(long id) {
-        return templateRepository.findById(id);
+    public TemplateEntity getTemplateByType(String type, String language) {
+        return templateRepository.findByType(type, language);
     }
 
     public String renderTemplate(String template, Map<String, String> placeholders) {

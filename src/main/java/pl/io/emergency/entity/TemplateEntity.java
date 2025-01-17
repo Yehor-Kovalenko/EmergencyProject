@@ -15,7 +15,10 @@ public class TemplateEntity implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String type;
+
+    @Column(nullable = false)
+    private String language;
 
     @Column(nullable = false)
     private String title;

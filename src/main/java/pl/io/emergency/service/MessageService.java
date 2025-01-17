@@ -41,8 +41,8 @@ public class MessageService {
         return messageRepository.read(receiverId);
     }
 
-    public boolean sendNotification(String receiverEmail, long templateId, Map<String, String> placeholders, Long receiverId) {
-        TemplateEntity template = templateService.getTemplateById(templateId);
+    public boolean sendNotification(String receiverEmail, String type, String language, Map<String, String> placeholders, Long receiverId) {
+        TemplateEntity template = templateService.getTemplateByType(type, language);
         String title = templateService.renderTemplate(template.getTitle(), placeholders);
         String body = templateService.renderTemplate(template.getBody(), placeholders);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
