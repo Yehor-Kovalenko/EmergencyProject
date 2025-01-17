@@ -56,7 +56,7 @@ public class ResourceEntity implements Serializable {
 
     public ResourceEntity(ResourceType type, String description, double amount, Long destinationId, Long holderId) {
         this.resourceType = type;
-        this.resourceStatus = ResourceStatus.READY;
+        this.resourceStatus = ResourceStatus.REGISTERED;
         this.description = description;
         this.amount = amount;
         this.date_of_registration = LocalDate.now();
@@ -66,7 +66,7 @@ public class ResourceEntity implements Serializable {
 
     public ResourceEntity(ResourceType type, String description, double amount, Long holderId) {
         this.resourceType = type;
-        this.resourceStatus = ResourceStatus.READY;
+        this.resourceStatus = ResourceStatus.REGISTERED;
         this.description = description;
         this.amount = amount;
         this.date_of_registration = LocalDate.now();

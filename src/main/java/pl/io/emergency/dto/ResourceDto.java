@@ -32,7 +32,7 @@ public class ResourceDto implements Serializable{
         this.type = type;
         this.description = description;
         this.amount = amount;
-        this.status = ResourceStatus.READY;
+        this.status = ResourceStatus.REGISTERED;
         this.destinationId = destinationId;
         this.holderId = holderId; //user_id
     }
@@ -42,7 +42,7 @@ public class ResourceDto implements Serializable{
         this.type = type;
         this.description = description;
         this.amount = amount;
-        this.status = ResourceStatus.READY;
+        this.status = ResourceStatus.REGISTERED;
         this.destinationId = null;
         this.holderId = holderId; //przekazywany pzrze uzytlownika
     }

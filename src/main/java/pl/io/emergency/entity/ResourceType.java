@@ -3,6 +3,10 @@ package pl.io.emergency.entity;
 public enum ResourceType {
     CLOTHES,
     PUBLICRESOURCE,
-    ANOTHER,
-    FOOD;
+    MEDICALSUPPLIES,
+    FOOD,
+    TOOLKITS,
+    COMMUNICATIONDEVICES,
+    TRANSPORT,
+    ANOTHER;
 }

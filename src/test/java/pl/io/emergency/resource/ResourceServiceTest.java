@@ -2,7 +2,6 @@ package pl.io.emergency.resource;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.http.HttpStatus;
 import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceEntity;
 import pl.io.emergency.entity.ResourceStatus;
@@ -50,7 +49,7 @@ public class ResourceServiceTest {
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
         assertEquals("First aid kits", resourceDto.getDescription());
         assertEquals(50.0, resourceDto.getAmount());
-        assertEquals(ResourceStatus.READY, resourceDto.getStatus());
+        assertEquals(ResourceStatus.REGISTERED, resourceDto.getStatus());
         assertEquals(1L, resourceDto.getDestinationId());
         assertEquals(2L, resourceDto.getHolderId());
 
@@ -86,7 +85,7 @@ public class ResourceServiceTest {
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
         assertEquals("First aid kits", resourceDto.getDescription());
         assertEquals(50.0, resourceDto.getAmount());
-        assertEquals(ResourceStatus.READY, resourceDto.getStatus());
+        assertEquals(ResourceStatus.REGISTERED, resourceDto.getStatus());
         assertEquals(2L, resourceDto.getHolderId());
 
         // Verify the save method in repository was called once
@@ -193,7 +192,7 @@ public class ResourceServiceTest {
         Long destinationId = 1L;
         Long holderId = 2L;
         LocalDate dateOfRegistration = LocalDate.now();
-        ResourceStatus status = ResourceStatus.READY;
+        ResourceStatus status = ResourceStatus.REGISTERED;
 
         ResourceEntity resourceEntity = new ResourceEntity(type, description, amount, destinationId, holderId);
         resourceEntity.setId(1L);
@@ -224,7 +223,7 @@ public class ResourceServiceTest {
 
         // Test data
         Long resourceId = 1L;
-        ResourceStatus newStatus = ResourceStatus.DONATED;
+        ResourceStatus newStatus = ResourceStatus.ENROUTE;
         ResourceEntity existingResource = new ResourceEntity(ResourceType.CLOTHES, "First Aid Kit", 20.0, 1L, 2L);
         existingResource.setId(resourceId);
 
@@ -252,7 +251,7 @@ public class ResourceServiceTest {
 
         // Test data for a non-existing resource
         Long resourceId = 999L;
-        ResourceStatus newStatus = ResourceStatus.DONATED;
+        ResourceStatus newStatus = ResourceStatus.ENROUTE;
 
         // Mock repository method to return empty Optional
         when(resourceRepositorium.findById(resourceId)).thenReturn(java.util.Optional.empty());

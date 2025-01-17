@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.server.ResponseStatusException;
 import pl.io.emergency.controller.ResourceController;
 import pl.io.emergency.dto.ResourceDto;
 import pl.io.emergency.entity.ResourceStatus;
@@ -58,7 +56,7 @@ public class ResourceDtoControllerTest {
         assertEquals(type, responseBody.getType());  // Porównanie z enumem
         assertEquals(description, responseBody.getDescription());
         assertEquals(amount, responseBody.getAmount());
-        assertEquals(ResourceStatus.READY, responseBody.getStatus());  // Status READY
+        assertEquals(ResourceStatus.REGISTERED, responseBody.getStatus());  // Status READY
         assertEquals(destinationId, responseBody.getDestinationId());
         assertEquals(holderId, responseBody.getHolderId());
         assertEquals(1L, responseBody.getId());  // Sprawdzamy, czy ID zostało ustawione
@@ -92,7 +90,7 @@ public class ResourceDtoControllerTest {
         assertEquals(type, responseBody.getType());  // Porównanie z enumem
         assertEquals(description, responseBody.getDescription());
         assertEquals(amount, responseBody.getAmount());
-        assertEquals(ResourceStatus.READY, responseBody.getStatus());  // Status READY
+        assertEquals(ResourceStatus.REGISTERED, responseBody.getStatus());  // Status READY
         assertEquals(holderId, responseBody.getHolderId());
         assertEquals(1L, responseBody.getId());  // Sprawdzamy, czy ID zostało ustawione
     }
@@ -130,14 +128,14 @@ public class ResourceDtoControllerTest {
         assertEquals(ResourceType.CLOTHES, responseBody.get(0).getType());
         assertEquals("First aid kits", responseBody.get(0).getDescription());
         assertEquals(50.0, responseBody.get(0).getAmount());
-        assertEquals(ResourceStatus.READY, responseBody.get(0).getStatus());
+        assertEquals(ResourceStatus.REGISTERED, responseBody.get(0).getStatus());
         assertEquals(1L, responseBody.get(0).getDestinationId());
         assertEquals(holderId, responseBody.get(0).getHolderId());
 
         assertEquals(ResourceType.FOOD, responseBody.get(1).getType());
         assertEquals("Canned food", responseBody.get(1).getDescription());
         assertEquals(30.0, responseBody.get(1).getAmount());
-        assertEquals(ResourceStatus.READY, responseBody.get(1).getStatus());
+        assertEquals(ResourceStatus.REGISTERED, responseBody.get(1).getStatus());
         assertEquals(null, responseBody.get(1).getDestinationId());
         assertEquals(holderId, responseBody.get(1).getHolderId());
     }
@@ -176,14 +174,14 @@ public class ResourceDtoControllerTest {
         assertEquals(ResourceType.CLOTHES, responseBody.get(0).getType());
         assertEquals("First aid kits", responseBody.get(0).getDescription());
         assertEquals(50.0, responseBody.get(0).getAmount());
-        assertEquals(ResourceStatus.READY, responseBody.get(0).getStatus());
+        assertEquals(ResourceStatus.REGISTERED, responseBody.get(0).getStatus());
         assertEquals(destinationId, responseBody.get(0).getDestinationId());
         assertEquals(2L, responseBody.get(0).getHolderId());
 
         assertEquals(ResourceType.FOOD, responseBody.get(1).getType());
         assertEquals("Canned food", responseBody.get(1).getDescription());
         assertEquals(30.0, responseBody.get(1).getAmount());
-        assertEquals(ResourceStatus.READY, responseBody.get(1).getStatus());
+        assertEquals(ResourceStatus.REGISTERED, responseBody.get(1).getStatus());
         assertEquals(destinationId, responseBody.get(1).getDestinationId());
         assertEquals(2L, responseBody.get(1).getHolderId());
     }
@@ -201,7 +199,7 @@ public class ResourceDtoControllerTest {
 
         // Przygotowanie danych testowych
         Long resourceId = 1L;
-        ResourceStatus newStatus = ResourceStatus.DONATED;
+        ResourceStatus newStatus = ResourceStatus.ENROUTE;
         ResourceEntity existingResource = new ResourceEntity(ResourceType.CLOTHES, "First Aid Kit", 20.0, 1L, 2L);
         existingResource.setId(resourceId);  // Ustawiamy ID zasobu
 
@@ -237,7 +235,7 @@ public class ResourceDtoControllerTest {
 
         // Przygotowanie danych testowych
         Long resourceId = 999L;  // Zasób, którego nie ma w bazie
-        ResourceStatus newStatus = ResourceStatus.DONATED;
+        ResourceStatus newStatus = ResourceStatus.ENROUTE;
 
         // Mockowanie metody findById, która zwraca pustą wartość (brak zasobu)
         when(resourceRepositorium.findById(resourceId)).thenReturn(java.util.Optional.empty());

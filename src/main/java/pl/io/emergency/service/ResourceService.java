@@ -40,7 +40,7 @@ public class ResourceService {
         resourceDto.setAmount(savedEntity.getAmount());
         resourceDto.setDestinationId(savedEntity.getDestinationId());
         resourceDto.setHolderId(savedEntity.getHolderId());
-        resourceDto.setStatus(ResourceStatus.READY);  // Set the status
+        resourceDto.setStatus(ResourceStatus.REGISTERED);  // Set the status
 
         // Return the created ResourceDto
         return resourceDto;
