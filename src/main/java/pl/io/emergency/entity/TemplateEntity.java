@@ -2,6 +2,7 @@ package pl.io.emergency.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
@@ -23,7 +24,6 @@ public class TemplateEntity implements Serializable {
     @Column(nullable = false)
     private String title;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 }

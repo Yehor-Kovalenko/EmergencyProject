@@ -5,16 +5,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class messageDto{
+public class messageDtoSend {
 
     private long senderId;
     private long receiverId;
     private String title;
     private String body;
 
-    public messageDto() {}
+    public messageDtoSend() {}
 
-    public messageDto(long senderId, long receiverId, String title, String body) {
+    public messageDtoSend(long senderId, long receiverId, String title, String body) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.title = title;
