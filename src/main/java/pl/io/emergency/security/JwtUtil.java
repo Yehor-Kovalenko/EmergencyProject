@@ -5,15 +5,15 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Service;
 
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Service
 public class JwtUtil {
-    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 15;
-    private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 3;
+    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 5;
+    public static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 3;
     private static final SecretKey secretKey = Jwts.SIG.HS256.key().build();
 
     public String generateAccessToken(User user) {
