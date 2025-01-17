@@ -90,9 +90,6 @@ public class ResourceDto implements Serializable{
         this.holderId = holderId;
     }
 
-    public ResourceDto()
-    {}
-
     public ResourceDto (ResourceType type, String description, double amount, Long destinationId, Long holderId)
     {
         this.type = type;
