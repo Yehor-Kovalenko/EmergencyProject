@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.io.emergency.dto.AuthRequestDto;
-import pl.io.emergency.dto.RegistrationUserDto;
+import pl.io.emergency.dto.authorization.LoginRequestDto;
+import pl.io.emergency.dto.authorization.LoginResponseDto;
+import pl.io.emergency.dto.authorization.PasswordRequestDto;
+import pl.io.emergency.dto.authorization.RegistrationRequestDto;
 import pl.io.emergency.service.AuthenticationService;
 
 import java.util.Map;
@@ -37,7 +39,7 @@ public class AuthenticationController {
     })
     @PostMapping("/register")
     @Tag(name = "User registration", description = "Operations related to user management")
-    public ResponseEntity<String> register(@RequestBody @Valid RegistrationUserDto dto){
+    public ResponseEntity<String> register(@RequestBody @Valid RegistrationRequestDto dto){
         try {
             authService.registerUser(dto);
             log.info("User registered successfully");
@@ -53,7 +55,7 @@ public class AuthenticationController {
     })
     @PostMapping("/login")
     @Tag(name = "User login", description = "Operations related to user authentication")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthRequestDto user, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto user, HttpServletResponse response) {
         try {
             if (!authService.loginUser(user)) {
                 log.info("User login failed");
@@ -61,12 +63,13 @@ public class AuthenticationController {
             }
             log.info("User authenticated successfully");
 
-            Map<String, String> accessToken = authService.getAccessToken(user);
+            String accessToken = authService.getAccessToken(user);
             ResponseCookie refreshToken = authService.getRefreshToken(user);
+            LoginResponseDto loginResponseDto = authService.getLoginResponseDto(accessToken, user.getUsername());
 
             response.addHeader("Set-Cookie", refreshToken.toString());
 
-            return ResponseEntity.ok().body(accessToken);
+            return ResponseEntity.ok().body(loginResponseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -78,7 +81,7 @@ public class AuthenticationController {
     })
     @PostMapping("/refresh")
     @Tag(name = "Refresh token", description = "Operations related to refreshing token")
-    public ResponseEntity<Map<String, String>> refreshToken(@RequestBody Map<String, String> refreshRequest) {
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> refreshRequest) {
         try {
             Map<String, String> token = authService.refreshAccessToken(refreshRequest.get("refreshToken"));
             return ResponseEntity.ok().body(token);
