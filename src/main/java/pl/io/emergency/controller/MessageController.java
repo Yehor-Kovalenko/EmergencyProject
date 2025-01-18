@@ -25,11 +25,9 @@ import java.util.Map;
 @Tag(name = "Messages", description = "Endpoints for managing messages")
 public class MessageController {
     private final MessageService messageService;
-    private final UserService userService;
 
-    public MessageController(MessageService messageService, UserService userService) {
+    public MessageController(MessageService messageService) {
         this.messageService = messageService;
-        this.userService = userService;
     }
 
     @Operation(summary = "Sending message", description = "Endpoint for sending a new message")
