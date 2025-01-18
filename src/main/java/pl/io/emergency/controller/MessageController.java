@@ -8,9 +8,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.io.emergency.dto.messageDto;
+import pl.io.emergency.dto.messageDtoRead;
+import pl.io.emergency.dto.messageDtoSend;
+import pl.io.emergency.dto.searchDto;
 import pl.io.emergency.entity.MessageEntity;
+import pl.io.emergency.entity.User;
 import pl.io.emergency.service.MessageService;
+import pl.io.emergency.service.UserService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +35,7 @@ public class MessageController {
             @ApiResponse(responseCode = "200", description = "Message sent successfully"),
     })
     @PostMapping("/send")
-    public ResponseEntity<Map<String, String>> sendMessage(@Valid @RequestBody messageDto message) {
+    public ResponseEntity<Map<String, String>> sendMessage(@Valid @RequestBody messageDtoSend message) {
 
         boolean isSent = messageService.sendMessage(message.getSenderId(), message.getReceiverId(), message.getTitle(), message.getBody());
         Map<String, String> response = new HashMap<>();
@@ -49,12 +53,22 @@ public class MessageController {
             @ApiResponse(responseCode = "200", description = "Messages retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "No messages found for the given receiver ID"),
     })
-    @GetMapping("/check/{receiverId}")
-    public ResponseEntity<List<MessageEntity>> getMessages(@PathVariable long receiverId) {
-        List<MessageEntity> messages = messageService.getMessages(receiverId);
+    @PostMapping("/check")
+    public ResponseEntity<List<MessageEntity>> getMessages(@Valid @RequestBody messageDtoRead message) {
+        List<MessageEntity> messages = messageService.getMessages(message.getReceiverId());
         if (messages.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(messages);
+    }
+
+    @Operation(summary = "Search users", description = "Endpoint for Retrieving all users for a specific string")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
+    })
+    @PostMapping("/search")
+    public ResponseEntity<List<User>> getUsers(@Valid @RequestBody searchDto searchDto) {
+        List<User> users = messageService.searchUsers(searchDto.getSearch());
+        return ResponseEntity.ok(users);
     }
 }
