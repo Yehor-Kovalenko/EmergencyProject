@@ -50,10 +50,19 @@ public class ReportService {
 
     public Report getGovernmentReport(ReportType reportType, LocalDate dateFrom, LocalDate dateTo) {
         switch (reportType) {
-            case ACTIVE_ACTIONS -> {
-                List<Catastrophe> allActiveCatastrophes = this.catastropheRepositorium.findAll();
-                
+            case ACTIVE_CATASTROPHES -> {
+                List<Catastrophe> allActiveCatastrophes = this.catastropheRepositorium.findAll()
+                        .stream()
+                        .filter(Catastrophe::isActive)
+                        .toList();
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveCatastrophes);
+            }
+            case ARCHIVE_CATASTROPHES -> {
+                List<Catastrophe> allArchivedCatastrophes = this.catastropheRepositorium.findAll()
+                        .stream()
+                        .filter(catastrophe -> !catastrophe.isActive())
+                        .toList();
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allArchivedCatastrophes);
             }
             // Everything that is not DELIVERED or ENROUTE is an "active" resource
             case ACTIVE_NGO_RESOURCES -> {
@@ -62,7 +71,6 @@ public class ReportService {
                         .filter(resource -> resource.getResourceStatus() != ResourceStatus.DELIVERED
                                 && resource.getResourceStatus() != ResourceStatus.ENROUTE)
                         .toList();
-
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveResources);
             }
             case ARCHIVE_NGO_RESOURCES -> {
