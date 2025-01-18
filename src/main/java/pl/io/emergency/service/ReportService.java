@@ -55,6 +55,10 @@ public class ReportService {
     }
 
     public Report getGovernmentReport(ReportType reportType, LocalDate dateFrom, LocalDate dateTo) {
+        Report maybeOldReport = this.reportRepository.loadGovernmentReport(reportType, dateFrom, dateTo).stream().findFirst().orElse(null);
+        if (maybeOldReport == null) {
+            maybeOldReport = null;
+        }
         switch (reportType) {
             case ACTIVE_CATASTROPHES -> {
                 List<Catastrophe> allActiveCatastrophes = this.catastropheRepositorium.findAll()
@@ -117,4 +121,5 @@ public class ReportService {
                 })
                 .collect(Collectors.toList());
     }
+
 }
