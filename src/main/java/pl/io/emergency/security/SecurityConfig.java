@@ -25,7 +25,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:8081") // Frontend port
+                        .allowedOrigins("http://localhost:5173") // Frontend port
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
