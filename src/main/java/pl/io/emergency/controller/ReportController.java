@@ -60,7 +60,7 @@ public class ReportController {
     public ResponseEntity<Report> getGovernmentReport(@Parameter
     (
             description = "Type of report to generate.",
-            schema = @Schema(allowableValues = {"ACTIVE_NGO_RESOURCES", "ARCHIVE_NGO_RESOURCES", "ACTIVE_VOLUNTEERS", "ARCHIVE_VOLUNTEERS", "ACTIVE_ACTIONS", "ARCHIVE_ACTIONS"}))
+            schema = @Schema(allowableValues = {"ACTIVE_NGO_RESOURCES", "ARCHIVE_NGO_RESOURCES", "ACTIVE_VOLUNTEERS", "ARCHIVE_VOLUNTEERS", "ACTIVE_CATASTROPHES", "ARCHIVE_CATASTROPHES"}))
             @RequestParam(required = true) ReportType reportType,
             @RequestParam(required = true) LocalDate dateFrom,
             @RequestParam(required = true) LocalDate dateTo

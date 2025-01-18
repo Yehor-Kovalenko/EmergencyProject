@@ -1,28 +1,34 @@
 package pl.io.emergency.service;
 
 import org.springframework.stereotype.Service;
+import pl.io.emergency.dto.VolunteerWithActionsDto;
 import pl.io.emergency.entity.*;
-import pl.io.emergency.repository.CatastropheRepository;
-import pl.io.emergency.repository.ReportRepository;
-import pl.io.emergency.repository.ResourceRepositorium;
+import pl.io.emergency.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportService {
     private final ReportRepository reportRepository;
     private final ResourceRepositorium resourceRepositorium;
     private final CatastropheRepository catastropheRepositorium;
+    private final VolunteerRepository volunteerRepository;
+    private final ActionRepository actionRepository;
 
     public ReportService(ReportRepository reportRepository,
                          ResourceRepositorium resourceRepositorium,
-                         CatastropheRepository catastropheRepositorium) {
+                         CatastropheRepository catastropheRepositorium,
+                         VolunteerRepository volunteerRepository,
+                         ActionRepository actionRepository) {
         this.reportRepository = reportRepository;
         this.resourceRepositorium = resourceRepositorium;
         this.catastropheRepositorium = catastropheRepositorium;
+        this.volunteerRepository = volunteerRepository;
+        this.actionRepository = actionRepository;
     }
 
     public List<Report> findAll() {
@@ -81,9 +87,34 @@ public class ReportService {
                         .toList();
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allArchivedResources);
             }
+            case ACTIVE_VOLUNTEERS -> {
+                List<VolunteerWithActionsDto> volunteersWithActions = this.getVolunteersWithActions(true);
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, volunteersWithActions);
+            }
+            case ARCHIVE_VOLUNTEERS -> {
+                List<VolunteerWithActionsDto> volunteersWithActions = this.getVolunteersWithActions(false);
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, volunteersWithActions);
+            }
             default -> {
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, null);
             }
         }
+    }
+
+    public List<VolunteerWithActionsDto> getVolunteersWithActions(boolean available) {
+        // Fetch all volunteers filtered by availability
+        List<Volunteer> volunteers = volunteerRepository.findAll()
+                .stream()
+                .filter(volunteer -> volunteer.isAvailable() == available)
+                .collect(Collectors.toList());
+        
+        // Map each volunteer to VolunteerWithActionsDTO
+        return volunteers.stream()
+                .map(volunteer -> {
+                    // Fetch actions associated with this volunteer by their ID
+                    List<Action> actions = actionRepository.findByVolunteerId(volunteer.getId());
+                    return new VolunteerWithActionsDto(volunteer, actions);
+                })
+                .collect(Collectors.toList());
     }
 }
