@@ -34,7 +34,7 @@ public class HelpRequestController {
         return new ResponseEntity<>(savedHelpRequest, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Retrieve a help request by unique code", description = "Fetches a help request using its unique identifier")
+    @Operation(summary = "Retrieve a help request by its unique code", description = "Fetches a help request using its unique identifier")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Help request found"),
             @ApiResponse(responseCode = "404", description = "Help request not found")
