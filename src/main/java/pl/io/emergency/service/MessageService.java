@@ -35,7 +35,11 @@ public class MessageService {
             mailMessage.setSubject("📩 Nowa wiadomość w systemie pomocy humanitarnej! 🌟");
             mailMessage.setText("Witaj!\n\nMasz nową wiadomość w systemie. 📨\nSprawdź swoją skrzynkę w systemie pomocy humanitarnej. 🌍");
             mailMessage.setFrom("hum.aid.system@gmail.com");
-            emailService.sendEmail(mailMessage);
+            try {
+                emailService.sendEmail(mailMessage);
+            } catch (Exception e) {
+                System.out.println("AWS ses send failed");
+            }
             return true;
         }
         return false;
@@ -54,7 +58,11 @@ public class MessageService {
         mailMessage.setFrom("hum.aid.system@gmail.com");
         mailMessage.setSubject(title);
         mailMessage.setText(body);
-        emailService.sendEmail(mailMessage);
+        try {
+            emailService.sendEmail(mailMessage);
+        } catch (Exception e) {
+            System.out.println("AWS ses send failed");
+        }
         if (receiverId != null) {
             MessageEntity message = new MessageEntity(0, receiverId, title, body);
             messageRepository.insertMessage(message);
