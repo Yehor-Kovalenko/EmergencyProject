@@ -39,7 +39,7 @@ public class ReportController {
             @ApiResponse(responseCode = "200", description = "Report created, returned, saved."),
     })
     @Tag(name = "Report Generation", description = "Operations related to generating reports")
-    @PostMapping("/giver")
+    @PostMapping("/getGiver")
     public ResponseEntity<Report> getGiverReport(@RequestParam(required = true) long giverId) {
         log.info("Giver report requested with id {}", giverId);
         Report report = reportService.getGiverReport(giverId);
@@ -54,7 +54,7 @@ public class ReportController {
             @ApiResponse(responseCode = "200", description = "Report created, returned."),
     })
     @Tag(name = "Report Generation", description = "Operations related to generating reports")
-    @PostMapping("/government")
+    @PostMapping("/getGovernment")
     public ResponseEntity<Report> getGovernmentReport(@RequestParam(required = true) ReportType reportType,
                                                       @RequestParam(required = true) LocalDate dateFrom,
                                                         @RequestParam(required = true) LocalDate dateTo) {

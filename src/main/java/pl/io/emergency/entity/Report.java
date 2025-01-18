@@ -68,7 +68,7 @@ public class Report<T> implements Serializable {
     public Report(LocalDateTime timestamp, List<T> data) {
         this.timestamp = timestamp;
         this.data = data;
-        this.reportType = ReportType.GIVER;
+        this.reportType = ReportType.GIVER_RESOURCES;
     }
 
     public LocalDateTime getTimestamp() {

@@ -52,12 +52,12 @@ public class ReportService {
     }
 
     public Report getGovernmentReport(ReportType reportType, LocalDate dateFrom, LocalDate dateTo) {
-        if (reportType == ReportType.ACTIVE_CATASTROPHES){
+        if (reportType == ReportType.ACTIVE_ACTIONS){
             // get all active catastrophes
             List<Catastrophe> allActiveCatastrophes = this.catastropheRepositorium.findAll();
             return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveCatastrophes);
         }
-        else if (reportType == ReportType.ACTIVE_RESOURCES){
+        else if (reportType == ReportType.ACTIVE_NGO_RESOURCES){
             // get all active resources
             List<ResourceEntity> allActiveResources = this.resourceRepositorium.findAll();
             return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveResources);
