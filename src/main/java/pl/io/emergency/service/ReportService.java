@@ -1,10 +1,7 @@
 package pl.io.emergency.service;
 
 import org.springframework.stereotype.Service;
-import pl.io.emergency.entity.Catastrophe;
-import pl.io.emergency.entity.Report;
-import pl.io.emergency.entity.ReportType;
-import pl.io.emergency.entity.ResourceEntity;
+import pl.io.emergency.entity.*;
 import pl.io.emergency.repository.CatastropheRepository;
 import pl.io.emergency.repository.ReportRepository;
 import pl.io.emergency.repository.ResourceRepositorium;
@@ -46,22 +43,39 @@ public class ReportService {
 
         // giverId in resources is not implemented yet, so ignore giverId and just return all resources
         // get all resources
-         List<ResourceEntity> allResources = this.resourceRepositorium.findAll();
+         List<ResourceEntity> allResources = this.resourceRepositorium.findByHolderId(giverId);
 
         return new Report(localDateTime, allResources);
     }
 
     public Report getGovernmentReport(ReportType reportType, LocalDate dateFrom, LocalDate dateTo) {
-        if (reportType == ReportType.ACTIVE_ACTIONS){
-            // get all active catastrophes
-            List<Catastrophe> allActiveCatastrophes = this.catastropheRepositorium.findAll();
-            return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveCatastrophes);
+        switch (reportType) {
+            case ACTIVE_ACTIONS -> {
+                List<Catastrophe> allActiveCatastrophes = this.catastropheRepositorium.findAll();
+                
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveCatastrophes);
+            }
+            // Everything that is not DELIVERED or ENROUTE is an "active" resource
+            case ACTIVE_NGO_RESOURCES -> {
+                List<ResourceEntity> allActiveResources = this.resourceRepositorium.findAll()
+                        .stream()
+                        .filter(resource -> resource.getResourceStatus() != ResourceStatus.DELIVERED
+                                && resource.getResourceStatus() != ResourceStatus.ENROUTE)
+                        .toList();
+
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveResources);
+            }
+            case ARCHIVE_NGO_RESOURCES -> {
+                List<ResourceEntity> allArchivedResources = this.resourceRepositorium.findAll()
+                        .stream()
+                        .filter(resource -> resource.getResourceStatus() == ResourceStatus.DELIVERED
+                                || resource.getResourceStatus() == ResourceStatus.ENROUTE)
+                        .toList();
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allArchivedResources);
+            }
+            default -> {
+                return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, null);
+            }
         }
-        else if (reportType == ReportType.ACTIVE_NGO_RESOURCES){
-            // get all active resources
-            List<ResourceEntity> allActiveResources = this.resourceRepositorium.findAll();
-            return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allActiveResources);
-        }
-        return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, null);
     }
 }
