@@ -5,7 +5,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import pl.io.emergency.entity.MessageEntity;
 import pl.io.emergency.entity.TemplateEntity;
+import pl.io.emergency.entity.User;
 import pl.io.emergency.repository.MessageRepository;
+import pl.io.emergency.repository.UserRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -14,12 +16,14 @@ import java.util.Map;
 public class MessageService {
     private final MessageRepository messageRepository;
     private final TemplateService templateService;
+    private final UserRepository userRepository;
     @Autowired
     private  EmailService emailService;
 
-    public MessageService(MessageRepository messageRepository, TemplateService templateService) {
+    public MessageService(MessageRepository messageRepository, TemplateService templateService, UserRepository userRepository) {
         this.messageRepository = messageRepository;
         this.templateService = templateService;
+        this.userRepository = userRepository;
     }
 
     public boolean sendMessage(long senderId, long receiverId, String title, String body) {
@@ -27,7 +31,7 @@ public class MessageService {
         int info = messageRepository.insertMessage(message);
         if (info == 1) {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setTo("szymskul@gmail.com");
+            mailMessage.setTo(userRepository.findEmailById(receiverId));
             mailMessage.setSubject("📩 Nowa wiadomość w systemie pomocy humanitarnej! 🌟");
             mailMessage.setText("Witaj!\n\nMasz nową wiadomość w systemie. 📨\nSprawdź swoją skrzynkę w systemie pomocy humanitarnej. 🌍");
             mailMessage.setFrom("hum.aid.system@gmail.com");
@@ -51,11 +55,14 @@ public class MessageService {
         mailMessage.setSubject(title);
         mailMessage.setText(body);
         emailService.sendEmail(mailMessage);
-        //TODO ogarniecie senderId jako system pomocy humanitarnej
         if (receiverId != null) {
-            MessageEntity message = new MessageEntity(1, receiverId, title, body);
+            MessageEntity message = new MessageEntity(0, receiverId, title, body);
             messageRepository.insertMessage(message);
         }
         return true;
+    }
+
+    public List<User> searchUsers(String search) {
+        return userRepository.searchUsersByName(search);
     }
 }

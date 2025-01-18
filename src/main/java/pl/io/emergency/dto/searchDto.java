@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class messageDtoRead {
-
-    private long receiverId;
-
+public class searchDto {
+    private String search;
 }

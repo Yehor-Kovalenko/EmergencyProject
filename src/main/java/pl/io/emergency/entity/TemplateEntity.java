@@ -2,7 +2,6 @@ package pl.io.emergency.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
