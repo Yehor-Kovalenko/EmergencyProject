@@ -49,7 +49,7 @@ public class EventService {
             placeholders.put("uniqueCode", helpRequest.getUniqueCode());
             placeholders.put("status", helpRequest.getStatus().toString());
 
-            messageService.sendNotification(helpRequest.getEmail(), "help1", "pl", placeholders, null);
+            messageService.sendNotification(helpRequest.getEmail(), "help1", helpRequest.getEmailLanguage(), placeholders, null);
 
             return helpRequestRepository.save(helpRequest);
         } else {
@@ -81,7 +81,7 @@ public class EventService {
         placeholders.put("uniqueCode", helpRequest.getUniqueCode());
         placeholders.put("status", helpRequest.getStatus().toString());
 
-        messageService.sendNotification(helpRequest.getEmail(), "help2", "pl", placeholders, null);
+        messageService.sendNotification(helpRequest.getEmail(), "help2", helpRequest.getEmailLanguage(), placeholders, null);
 
         return helpRequestRepository.save(helpRequest);
     }
