@@ -66,6 +66,7 @@ public class HelpRequestController {
         helpRequest.setFirstName(helpRequestDTORequest.getFirstName());
         helpRequest.setLastName(helpRequestDTORequest.getLastName());
         helpRequest.setEmail(helpRequestDTORequest.getEmail());
+        helpRequest.setEmailLanguage(helpRequestDTORequest.getEmailLanguage());
         helpRequest.setDescription(helpRequestDTORequest.getDescription());
         return helpRequest;
     }
@@ -76,6 +77,7 @@ public class HelpRequestController {
         dto.setFirstName(helpRequest.getFirstName());
         dto.setLastName(helpRequest.getLastName());
         dto.setEmail(helpRequest.getEmail());
+        dto.setEmailLanguage(helpRequest.getEmailLanguage());
         dto.setDescription(helpRequest.getDescription());
         dto.setStatus(helpRequest.getStatus());
         dto.setUniqueCode(helpRequest.getUniqueCode());

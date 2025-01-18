@@ -11,11 +11,16 @@ import pl.io.emergency.exception.HelpRequestNotFound;
 import pl.io.emergency.repository.CatastropheRepository;
 import pl.io.emergency.repository.HelpRequestRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class EventService {
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private CatastropheRepository catastropheRepository;
@@ -36,6 +41,16 @@ public class EventService {
         if (catastropheOpt.isPresent()) {
             Catastrophe catastrophe = catastropheOpt.get();
             helpRequest.setCatastrophe(catastrophe);
+
+            Map<String, String> placeholders = new HashMap<>();
+            placeholders.put("firstName", helpRequest.getFirstName());
+            placeholders.put("lastName", helpRequest.getLastName());
+            placeholders.put("description", helpRequest.getDescription());
+            placeholders.put("uniqueCode", helpRequest.getUniqueCode());
+            placeholders.put("status", helpRequest.getStatus().toString());
+
+            messageService.sendNotification(helpRequest.getEmail(), "help1", helpRequest.getEmailLanguage(), placeholders, null);
+
             return helpRequestRepository.save(helpRequest);
         } else {
             throw new CatastropheNotFound("Catastrophe not found with id " + catastropheId);
@@ -58,6 +73,15 @@ public class EventService {
         helpRequest.setLastName(updateDTO.getLastName());
         helpRequest.setEmail(updateDTO.getEmail());
         helpRequest.setDescription(updateDTO.getDescription());
+
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("firstName", helpRequest.getFirstName());
+        placeholders.put("lastName", helpRequest.getLastName());
+        placeholders.put("description", helpRequest.getDescription());
+        placeholders.put("uniqueCode", helpRequest.getUniqueCode());
+        placeholders.put("status", helpRequest.getStatus().toString());
+
+        messageService.sendNotification(helpRequest.getEmail(), "help2", helpRequest.getEmailLanguage(), placeholders, null);
 
         return helpRequestRepository.save(helpRequest);
     }

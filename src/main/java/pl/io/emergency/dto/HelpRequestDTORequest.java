@@ -22,5 +22,8 @@ public class HelpRequestDTORequest {
     private String email;
 
     @NotBlank
+    private String emailLanguage;
+
+    @NotBlank
     private String description;
 }
