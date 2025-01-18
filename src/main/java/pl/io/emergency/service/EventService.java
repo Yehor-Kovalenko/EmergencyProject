@@ -42,6 +42,10 @@ public class EventService {
         }
     }
 
+    public Optional<Catastrophe> getCatastropheById(long id) {
+        return catastropheRepository.findById(id);
+    }
+
     public Optional<HelpRequest> getHelpRequestByUniqueCode(String uniqueCode) {
         return helpRequestRepository.findByUniqueCode(uniqueCode);
     }

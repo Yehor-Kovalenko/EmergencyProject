@@ -42,6 +42,18 @@ public class CatastropheController {
         return new ResponseEntity<>(savedCatastrophe, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Retrieve a catastrophe by its id", description = "Fetches a catastrophe using its id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Catastrophe found"),
+            @ApiResponse(responseCode = "404", description = "Catastrophe not found")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Catastrophe> getCatastropheById(@PathVariable long id) {
+        return eventService.getCatastropheById(id)
+                .map(catastrophe -> new ResponseEntity<>(catastrophe, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     private Catastrophe mapFromDTORequest(CatastropheDTORequest catastropheDTORequest) {
         Catastrophe catastrophe = new Catastrophe();
         catastrophe.setType(catastropheDTORequest.getType());
