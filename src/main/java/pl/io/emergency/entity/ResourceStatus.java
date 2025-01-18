@@ -1,7 +1,8 @@
 package pl.io.emergency.entity;
 
 public enum ResourceStatus {
-    READY,
-    INWAY,
+    REGISTERED,
+    ASSIGNED,
+    ENROUTE,
     DELIVERED;
 }

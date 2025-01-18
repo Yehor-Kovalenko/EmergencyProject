@@ -2,14 +2,15 @@ package pl.io.emergency.entity;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
+@SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Official extends User {
-    private String name;
+    private String officialName;
     private String regon;
 }
