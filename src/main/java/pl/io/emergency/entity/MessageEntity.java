@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Messages")
-public class MessageEntity implements Serializable{
+public class MessageEntity implements Serializable {
 
     @Getter
     @Id
@@ -32,19 +32,24 @@ public class MessageEntity implements Serializable{
     private String title;
 
     @Getter
-    @Column(name= "body")
+    @Column(name = "body")
     private String body;
+
+    @Getter
+    @Column(name = "sender")
+    private String sender;
 
     public MessageEntity() {
 
     }
 
-    public MessageEntity(long senderId, long receiverId, String title, String body)
+    public MessageEntity(long senderId, long receiverId, String title, String body, String sender)
     {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.date = LocalDateTime.now();
         this.title = title;
         this.body = body;
+        this.sender = sender;
     }
 }

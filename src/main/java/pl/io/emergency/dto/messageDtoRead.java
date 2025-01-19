@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class messageDtoRead {
 
-    private long receiverId;
+    private long Id;
 
 }
