@@ -12,9 +12,9 @@ import pl.io.emergency.dto.messageDtoRead;
 import pl.io.emergency.dto.messageDtoSend;
 import pl.io.emergency.dto.searchDto;
 import pl.io.emergency.entity.MessageEntity;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 import pl.io.emergency.service.MessageService;
-import pl.io.emergency.service.UserService;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +55,7 @@ public class MessageController {
     })
     @PostMapping("/check")
     public ResponseEntity<List<MessageEntity>> getMessages(@Valid @RequestBody messageDtoRead message) {
-        List<MessageEntity> messages = messageService.getMessages(message.getReceiverId());
+        List<MessageEntity> messages = messageService.getMessages(message.getId());
         if (messages.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -70,5 +70,19 @@ public class MessageController {
     public ResponseEntity<List<User>> getUsers(@Valid @RequestBody searchDto searchDto) {
         List<User> users = messageService.searchUsers(searchDto.getSearch());
         return ResponseEntity.ok(users);
+    }
+
+    @Operation(summary = "Get messages for a sender", description = "Retrieve all messages for a specific sender")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Messages retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "No messages found for the given receiver ID"),
+    })
+    @PostMapping("/checksender")
+    public ResponseEntity<List<MessageEntity>> getMessagesForSender(@Valid @RequestBody messageDtoRead message) {
+        List<MessageEntity> messages = messageService.getMessagesForSender(message.getId());
+        if (messages.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(messages);
     }
 }

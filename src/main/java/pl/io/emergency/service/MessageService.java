@@ -5,7 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import pl.io.emergency.entity.MessageEntity;
 import pl.io.emergency.entity.TemplateEntity;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 import pl.io.emergency.repository.MessageRepository;
 import pl.io.emergency.repository.UserRepository;
 
@@ -27,7 +27,7 @@ public class MessageService {
     }
 
     public boolean sendMessage(long senderId, long receiverId, String title, String body) {
-        MessageEntity message = new MessageEntity(senderId, receiverId, title, body);
+        MessageEntity message = new MessageEntity(senderId, receiverId, title, body, userRepository.findUsernameById(senderId));
         int info = messageRepository.insertMessage(message);
         if (info == 1) {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -49,6 +49,10 @@ public class MessageService {
         return messageRepository.read(receiverId);
     }
 
+    public List<MessageEntity> getMessagesForSender(long senderId) {
+        return messageRepository.readForSender(senderId);
+    }
+
     public boolean sendNotification(String receiverEmail, String type, String language, Map<String, String> placeholders, Long receiverId) {
         TemplateEntity template = templateService.getTemplateByType(type, language);
         String title = templateService.renderTemplate(template.getTitle(), placeholders);
@@ -64,7 +68,7 @@ public class MessageService {
             System.out.println("AWS ses send failed");
         }
         if (receiverId != null) {
-            MessageEntity message = new MessageEntity(0, receiverId, title, body);
+            MessageEntity message = new MessageEntity(0, receiverId, title, body, "System pomocy humanitarnej");
             messageRepository.insertMessage(message);
         }
         return true;

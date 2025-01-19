@@ -3,15 +3,17 @@ package pl.io.emergency.service;
 import org.springframework.stereotype.Service;
 import pl.io.emergency.entity.Action;
 import pl.io.emergency.entity.Invitation;
-import pl.io.emergency.entity.NGO;
-import pl.io.emergency.entity.Volunteer;
+import pl.io.emergency.entity.users.NGO;
+import pl.io.emergency.entity.users.Volunteer;
 import pl.io.emergency.repository.InvitationRepository;
 import pl.io.emergency.repository.NGORepository;
 import pl.io.emergency.repository.VolunteerRepository;
 
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,16 +24,18 @@ public class NGOService {
     private final InvitationRepository invitationRepository;
     private final VolunteerService volunteerService;
     private final ActionService actionService;
+    private final MessageService messageService;
 
     public NGOService(NGORepository ngoRepository,
                       VolunteerRepository volunteerRepository,
                       InvitationRepository invitationRepository,
-                      VolunteerService volunteerService, ActionService actionService) {
+                      VolunteerService volunteerService, ActionService actionService, MessageService messageService) {
         this.ngoRepository = ngoRepository;
         this.volunteerRepository = volunteerRepository;
         this.invitationRepository = invitationRepository;
         this.volunteerService = volunteerService;
         this.actionService = actionService;
+        this.messageService = messageService;
     }
 
     // Pobiera wszystkie NGO
@@ -68,6 +72,14 @@ public class NGOService {
         invitation.setSender(ngo.getName());
         invitation.setReceivers(volunteerEmails);
 
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("eventLink", "http://example.com/event/" + eventId);
+
+        for (int i = 0; i < volunteerEmails.size(); i++) {
+            String email = volunteerEmails.get(i);
+            long id = volunteerId.get(i);
+            messageService.sendNotification(email, "vol1", "pl", placeholders, id);
+        }
         actionService.createActionsForVolunteers(volunteerId, eventId);
 
         return invitationRepository.save(invitation);

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.io.emergency.dto.VolunteerWithActionsDto;
 import pl.io.emergency.entity.*;
 import pl.io.emergency.repository.*;
+import pl.io.emergency.entity.users.Volunteer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
