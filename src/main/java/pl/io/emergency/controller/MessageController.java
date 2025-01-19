@@ -37,7 +37,7 @@ public class MessageController {
     @PostMapping("/send")
     public ResponseEntity<Map<String, String>> sendMessage(@Valid @RequestBody messageDtoSend message) {
 
-        boolean isSent = messageService.sendMessage(message.getSenderId(), message.getReceiverId(), message.getTitle(), message.getBody());
+        boolean isSent = messageService.sendMessage(message.getSenderId(), message.getReceiverId(), message.getTitle(), message.getBody(), message.getLanguage());
         Map<String, String> response = new HashMap<>();
         if (isSent) {
             response.put("message", "Message sent successfully");
