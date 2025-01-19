@@ -63,7 +63,7 @@ public class AuthenticationService {
                     .email(dto.getEmail())
                     .phone(dto.getPhone())
                     .role(Role.NGO)
-                    .ngoName(dto.getNgoName())
+                    .name(dto.getNgoName())
                     .krs(dto.getKrs())
                     .build();
             case "OFFICIAL" -> Official.builder()

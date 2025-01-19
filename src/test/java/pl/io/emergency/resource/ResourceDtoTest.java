@@ -26,7 +26,7 @@ public class ResourceDtoTest {
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
         assertEquals("First aid kits", resourceDto.getDescription());
         assertEquals(50.0, resourceDto.getAmount());
-        assertEquals(ResourceStatus.READY, resourceDto.getStatus());
+        assertEquals(ResourceStatus.REGISTERED, resourceDto.getStatus());
         assertEquals(1L, resourceDto.getDestinationId());
         assertEquals(2L, resourceDto.getHolderId());
     }
@@ -44,7 +44,7 @@ public class ResourceDtoTest {
         // Testowanie czy wartości zostały poprawnie ustawione
         assertEquals(ResourceType.CLOTHES, resourceDto.getType());
         assertEquals("First aid kits", resourceDto.getDescription());
-        assertEquals(ResourceStatus.READY, resourceDto.getStatus());
+        assertEquals(ResourceStatus.REGISTERED, resourceDto.getStatus());
         assertEquals(50.0, resourceDto.getAmount());
         assertEquals(null, resourceDto.getDestinationId());
         assertEquals(2L, resourceDto.getHolderId());
