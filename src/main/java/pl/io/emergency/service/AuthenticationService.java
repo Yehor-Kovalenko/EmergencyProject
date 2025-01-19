@@ -109,6 +109,7 @@ public class AuthenticationService {
                 .accessToken(accessToken)
                 .userData(UserDataDto.builder()
                         .username(user.getUsername())
+                        .userId(user.getId())
                         .role(user.getRole().toString())
                         .build())
                 .build();
