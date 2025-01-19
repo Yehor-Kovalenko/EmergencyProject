@@ -42,16 +42,18 @@ public class EventService {
             Catastrophe catastrophe = catastropheOpt.get();
             helpRequest.setCatastrophe(catastrophe);
 
+            HelpRequest savedHelpRequest =  helpRequestRepository.save(helpRequest);
+
             Map<String, String> placeholders = new HashMap<>();
-            placeholders.put("firstName", helpRequest.getFirstName());
-            placeholders.put("lastName", helpRequest.getLastName());
-            placeholders.put("description", helpRequest.getDescription());
-            placeholders.put("uniqueCode", helpRequest.getUniqueCode());
-            placeholders.put("status", helpRequest.getStatus().toString());
+            placeholders.put("firstName", savedHelpRequest.getFirstName());
+            placeholders.put("lastName", savedHelpRequest.getLastName());
+            placeholders.put("description", savedHelpRequest.getDescription());
+            placeholders.put("uniqueCode", savedHelpRequest.getUniqueCode());
+            placeholders.put("status", savedHelpRequest.getStatus().toString());
 
-            messageService.sendNotification(helpRequest.getEmail(), "help1", helpRequest.getEmailLanguage(), placeholders, null);
+            messageService.sendNotification(savedHelpRequest.getEmail(), "help1", savedHelpRequest.getEmailLanguage(), placeholders, null);
 
-            return helpRequestRepository.save(helpRequest);
+            return savedHelpRequest;
         } else {
             throw new CatastropheNotFound("Catastrophe not found with id " + catastropheId);
         }
@@ -74,15 +76,17 @@ public class EventService {
         helpRequest.setEmail(updateDTO.getEmail());
         helpRequest.setDescription(updateDTO.getDescription());
 
+        HelpRequest savedHelpRequest =  helpRequestRepository.save(helpRequest);
+
         Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("firstName", helpRequest.getFirstName());
-        placeholders.put("lastName", helpRequest.getLastName());
-        placeholders.put("description", helpRequest.getDescription());
-        placeholders.put("uniqueCode", helpRequest.getUniqueCode());
-        placeholders.put("status", helpRequest.getStatus().toString());
+        placeholders.put("firstName", savedHelpRequest.getFirstName());
+        placeholders.put("lastName", savedHelpRequest.getLastName());
+        placeholders.put("description", savedHelpRequest.getDescription());
+        placeholders.put("uniqueCode", savedHelpRequest.getUniqueCode());
+        placeholders.put("status", savedHelpRequest.getStatus().toString());
 
-        messageService.sendNotification(helpRequest.getEmail(), "help2", helpRequest.getEmailLanguage(), placeholders, null);
+        messageService.sendNotification(savedHelpRequest.getEmail(), "help2", savedHelpRequest.getEmailLanguage(), placeholders, null);
 
-        return helpRequestRepository.save(helpRequest);
+        return savedHelpRequest;
     }
 }
