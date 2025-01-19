@@ -70,7 +70,9 @@ public class ReportService {
             case ARCHIVE_CATASTROPHES -> {
                 List<Catastrophe> allArchivedCatastrophes = this.catastropheRepositorium.findAll()
                         .stream()
-                        .filter(catastrophe -> !catastrophe.isActive())
+                        .filter(catastrophe -> !catastrophe.isActive()
+                                && (catastrophe.getReportedDate().isAfter(dateFrom.atStartOfDay())
+                                && catastrophe.getReportedDate().isBefore(dateTo.plusDays(1).atStartOfDay())))
                         .toList();
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allArchivedCatastrophes);
             }
@@ -86,8 +88,10 @@ public class ReportService {
             case ARCHIVE_NGO_RESOURCES -> {
                 List<ResourceEntity> allArchivedResources = this.resourceRepositorium.findAll()
                         .stream()
-                        .filter(resource -> resource.getResourceStatus() == ResourceStatus.DELIVERED
+                        .filter(resource -> (resource.getResourceStatus() == ResourceStatus.DELIVERED
                                 || resource.getResourceStatus() == ResourceStatus.ENROUTE)
+                                && resource.getDate_of_registration().atStartOfDay().isAfter(dateFrom.atStartOfDay())
+                                && resource.getDate_of_registration().atStartOfDay().isBefore(dateTo.plusDays(1).atStartOfDay()))
                         .toList();
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allArchivedResources);
             }
