@@ -152,6 +152,8 @@ public class ResourceService {
 
         // Aktualizacja destinationId
         resource.setDestinationId(newDestinationId);
+        
+        resource.setResourceStatus(ResourceStatus.ASSIGNED);
 
         // Zapisanie zaktualizowanego zasobu w repozytorium
         ResourceEntity updatedResource = resourceRepositorium.save(resource);
