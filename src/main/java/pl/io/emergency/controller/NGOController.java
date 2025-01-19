@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.io.emergency.entity.Invitation;
-import pl.io.emergency.entity.NGO;
-import pl.io.emergency.entity.Volunteer;
+import pl.io.emergency.entity.users.NGO;
+import pl.io.emergency.entity.users.Volunteer;
 import pl.io.emergency.service.NGOService;
 
 import java.util.List;

@@ -12,9 +12,9 @@ import pl.io.emergency.dto.messageDtoRead;
 import pl.io.emergency.dto.messageDtoSend;
 import pl.io.emergency.dto.searchDto;
 import pl.io.emergency.entity.MessageEntity;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 import pl.io.emergency.service.MessageService;
-import pl.io.emergency.service.UserService;
+
 
 import java.util.HashMap;
 import java.util.List;

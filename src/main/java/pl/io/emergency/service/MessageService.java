@@ -5,7 +5,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import pl.io.emergency.entity.MessageEntity;
 import pl.io.emergency.entity.TemplateEntity;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 import pl.io.emergency.repository.MessageRepository;
 import pl.io.emergency.repository.UserRepository;
 

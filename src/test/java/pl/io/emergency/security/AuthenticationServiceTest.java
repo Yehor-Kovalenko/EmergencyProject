@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.io.emergency.dto.RegistrationUserDto;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 import pl.io.emergency.repository.UserRepository;
 import pl.io.emergency.service.AuthenticationService;
 
