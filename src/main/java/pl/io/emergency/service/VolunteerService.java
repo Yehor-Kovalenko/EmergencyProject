@@ -2,7 +2,7 @@ package pl.io.emergency.service;
 
 import org.springframework.stereotype.Service;
 import pl.io.emergency.entity.Action;
-import pl.io.emergency.entity.Volunteer;
+import pl.io.emergency.entity.users.Volunteer;
 import pl.io.emergency.repository.ActionRepository;
 import pl.io.emergency.repository.VolunteerRepository;
 

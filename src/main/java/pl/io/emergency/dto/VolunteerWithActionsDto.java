@@ -3,7 +3,7 @@ package pl.io.emergency.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import pl.io.emergency.entity.Action;
-import pl.io.emergency.entity.Volunteer;
+import pl.io.emergency.entity.users.Volunteer;
 
 import java.util.List;
 
