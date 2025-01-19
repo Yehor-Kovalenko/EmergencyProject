@@ -1,4 +1,4 @@
-package pl.io.emergency.entity;
+package pl.io.emergency.entity.users;
 
 import jakarta.persistence.Entity;
 import lombok.*;

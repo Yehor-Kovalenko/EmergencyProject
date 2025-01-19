@@ -1,4 +1,4 @@
-package pl.io.emergency.entity;
+package pl.io.emergency.entity.users;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "users")
+@Table(name = "app_users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
