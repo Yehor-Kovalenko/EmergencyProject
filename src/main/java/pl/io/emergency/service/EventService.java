@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.io.emergency.dto.HelpRequestDTORequest;
 import pl.io.emergency.entity.Catastrophe;
 import pl.io.emergency.entity.HelpRequest;
+import pl.io.emergency.entity.HelpRequestStatus;
 import pl.io.emergency.exception.CatastropheNotFound;
 import pl.io.emergency.exception.HelpRequestNotFound;
 import pl.io.emergency.repository.CatastropheRepository;
@@ -88,5 +89,21 @@ public class EventService {
         messageService.sendNotification(savedHelpRequest.getEmail(), "help2", savedHelpRequest.getEmailLanguage(), placeholders, null);
 
         return savedHelpRequest;
+    }
+
+    public HelpRequest closeHelpRequest(String uniqueCode) {
+        HelpRequest helpRequest = helpRequestRepository.findByUniqueCode(uniqueCode)
+                .orElseThrow(() -> new HelpRequestNotFound("HelpRequest not found with uniqueCode " + uniqueCode));
+
+        helpRequest.setStatus(HelpRequestStatus.CLOSED);
+        return helpRequestRepository.save(helpRequest);
+    }
+
+    public Catastrophe closeCatastrophe(long id) {
+        Catastrophe catastrophe = catastropheRepository.findById(id)
+                .orElseThrow(() -> new CatastropheNotFound("Catastrophe not found with id " + id));
+
+        catastrophe.setActive(false);
+        return catastropheRepository.save(catastrophe);
     }
 }
