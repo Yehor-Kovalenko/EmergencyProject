@@ -3,8 +3,10 @@ package pl.io.emergency.service;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.io.emergency.dto.AuthRequestDto;
-import pl.io.emergency.dto.RegistrationUserDto;
+import pl.io.emergency.dto.authorization.LoginRequestDto;
+import pl.io.emergency.dto.authorization.LoginResponseDto;
+import pl.io.emergency.dto.authorization.RegistrationRequestDto;
+import pl.io.emergency.dto.authorization.UserDataDto;
 import pl.io.emergency.entity.users.*;
 import pl.io.emergency.repository.UserRepository;
 import pl.io.emergency.security.CookieUtil;
@@ -27,7 +29,7 @@ public class AuthenticationService {
         this.cookieUtil = cookieUtil;
     }
 
-    public void registerUser(RegistrationUserDto dto) {
+    public void registerUser(RegistrationRequestDto dto) {
         if (userRepository.existsByUsername(dto.getUsername())
                 && userRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Username is already taken");
@@ -87,7 +89,7 @@ public class AuthenticationService {
         userRepository.save(user);
     }
 
-    public boolean loginUser(AuthRequestDto dto) {
+    public boolean loginUser(LoginRequestDto dto) {
         User user = userRepository.findByUsername(dto.getUsername());
 
         if (user == null) {
@@ -101,13 +103,24 @@ public class AuthenticationService {
         return true;
     }
 
-    public Map<String, String> getAccessToken(AuthRequestDto dto) {
-        User user = userRepository.findByUsername(dto.getUsername());
-        String accessToken = jwtUtil.generateAccessToken(user);
-        return Map.of("accessToken", accessToken);
+    public LoginResponseDto getLoginResponseDto(String accessToken, String username) {
+        User user = userRepository.findByUsername(username);
+        return LoginResponseDto.builder()
+                .accessToken(accessToken)
+                .userData(UserDataDto.builder()
+                        .username(user.getUsername())
+                        .userId(user.getId())
+                        .role(user.getRole().toString())
+                        .build())
+                .build();
     }
 
-    public ResponseCookie getRefreshToken(AuthRequestDto dto) {
+    public String getAccessToken(LoginRequestDto dto) {
+        User user = userRepository.findByUsername(dto.getUsername());
+        return jwtUtil.generateAccessToken(user);
+    }
+
+    public ResponseCookie getRefreshToken(LoginRequestDto dto) {
         User user = userRepository.findByUsername(dto.getUsername());
         String refreshToken = jwtUtil.generateRefreshToken(user);
         return cookieUtil.createHttpOnlyCookie(

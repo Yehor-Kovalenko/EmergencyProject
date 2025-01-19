@@ -1,11 +1,11 @@
-package pl.io.emergency.dto;
+package pl.io.emergency.dto.authorization;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import java.util.Date;
 
 @Data
-public class RegistrationUserDto {
+public class RegistrationRequestDto {
     @NotBlank(message = "Username is required")
     private String username;
 
