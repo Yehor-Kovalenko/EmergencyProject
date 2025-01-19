@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import pl.io.emergency.dto.RegistrationUserDto;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.dto.authorization.RegistrationRequestDto;
+import pl.io.emergency.entity.users.User;
 import pl.io.emergency.repository.UserRepository;
 import pl.io.emergency.service.AuthenticationService;
 
@@ -32,7 +32,7 @@ class AuthenticationServiceTest {
 
     @Test
     void shouldRegisterUserSuccessfully() {
-        RegistrationUserDto dto = new RegistrationUserDto();
+        RegistrationRequestDto dto = new RegistrationRequestDto();
         dto.setUsername("testUser");
         dto.setPassword("password");
         dto.setEmail("test@example.com");
@@ -50,7 +50,7 @@ class AuthenticationServiceTest {
 
     @Test
     void shouldThrowExceptionWhenUsernameOrEmailExists() {
-        RegistrationUserDto dto = new RegistrationUserDto();
+        RegistrationRequestDto dto = new RegistrationRequestDto();
         dto.setUsername("testUser");
         dto.setEmail("test@example.com");
 
@@ -67,7 +67,7 @@ class AuthenticationServiceTest {
 
     @Test
     void shouldThrowExceptionForInvalidRole() {
-        RegistrationUserDto dto = new RegistrationUserDto();
+        RegistrationRequestDto dto = new RegistrationRequestDto();
         dto.setUsername("testUser");
         dto.setPassword("password");
         dto.setEmail("test@example.com");
