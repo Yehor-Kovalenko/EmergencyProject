@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Controller providing access to the API endpoints for managing Volunteers.
  */
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/volunteers")
 @Tag(name = "Volunteer Management", description = "Operations related to managing volunteers")
@@ -40,17 +41,7 @@ public class VolunteerController {
         return ResponseEntity.ok(volunteers);
     }
 
-    @Operation(summary = "Get volunteers by organization ID", description = "Retrieve a list of volunteers by organization ID.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved volunteers"),
-            @ApiResponse(responseCode = "404", description = "Organization not found")
-    })
-    @GetMapping("/organization/{organizationId}")
-    public ResponseEntity<List<Volunteer>> getVolunteersByOrganizationId(@PathVariable Long organizationId) {
-        log.info("Fetching volunteers for organization ID: {}", organizationId);
-        List<Volunteer> volunteers = volunteerService.getVolunteersByOrganizationId(organizationId);
-        return ResponseEntity.ok(volunteers);
-    }
+
 
     @Operation(summary = "Get actions by volunteer ID", description = "Retrieve a list of actions for a specific volunteer.")
     @ApiResponses({

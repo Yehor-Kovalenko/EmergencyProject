@@ -34,7 +34,7 @@ public class HelpRequestController {
         return new ResponseEntity<>(savedHelpRequest, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Retrieve a help request by unique code", description = "Fetches a help request using its unique identifier")
+    @Operation(summary = "Retrieve a help request by its unique code", description = "Fetches a help request using its unique identifier")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Help request found"),
             @ApiResponse(responseCode = "404", description = "Help request not found")
@@ -61,11 +61,22 @@ public class HelpRequestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Close an existing help request", description = "Closes an existing help request")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Help request closed successfully"),
+            @ApiResponse(responseCode = "404", description = "Help request not found")
+    })
+    @PostMapping("/close/{uniqueCode}")
+    public void closeHelpRequest(@PathVariable String uniqueCode) {
+        eventService.closeHelpRequest(uniqueCode);
+    }
+
     private HelpRequest mapFromDTORequest(HelpRequestDTORequest helpRequestDTORequest) {
         HelpRequest helpRequest = new HelpRequest();
         helpRequest.setFirstName(helpRequestDTORequest.getFirstName());
         helpRequest.setLastName(helpRequestDTORequest.getLastName());
         helpRequest.setEmail(helpRequestDTORequest.getEmail());
+        helpRequest.setEmailLanguage(helpRequestDTORequest.getEmailLanguage());
         helpRequest.setDescription(helpRequestDTORequest.getDescription());
         return helpRequest;
     }
@@ -76,6 +87,7 @@ public class HelpRequestController {
         dto.setFirstName(helpRequest.getFirstName());
         dto.setLastName(helpRequest.getLastName());
         dto.setEmail(helpRequest.getEmail());
+        dto.setEmailLanguage(helpRequest.getEmailLanguage());
         dto.setDescription(helpRequest.getDescription());
         dto.setStatus(helpRequest.getStatus());
         dto.setUniqueCode(helpRequest.getUniqueCode());
