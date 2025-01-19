@@ -25,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for testing purposes
+                .csrf().disable() // Disable CSRF for testing purposes
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new CorsConfiguration();
                     corsConfig.setAllowedOrigins(List.of("http://localhost:5173")); // Frontend port
@@ -35,9 +35,9 @@ public class SecurityConfig {
                     return corsConfig;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/*").permitAll()
-                        .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
+                         .requestMatchers("/*").permitAll()
+//                        .anyRequest().authenticated()
+//                       .anyRequest().permitAll()
                 )
                 .addFilterAfter(new JwtAuthenticationFilter(jwtUtil), BasicAuthenticationFilter.class);
         return http.build();
