@@ -32,7 +32,7 @@ public class Catastrophe implements Serializable {
     @JsonManagedReference
     private List<HelpRequest> helpRequests;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     private LocalDateTime reportedDate;
 

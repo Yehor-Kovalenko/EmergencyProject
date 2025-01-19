@@ -61,6 +61,16 @@ public class HelpRequestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Close an existing help request", description = "Closes an existing help request")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Help request closed successfully"),
+            @ApiResponse(responseCode = "404", description = "Help request not found")
+    })
+    @PostMapping("/close/{uniqueCode}")
+    public void closeHelpRequest(@PathVariable String uniqueCode) {
+        eventService.closeHelpRequest(uniqueCode);
+    }
+
     private HelpRequest mapFromDTORequest(HelpRequestDTORequest helpRequestDTORequest) {
         HelpRequest helpRequest = new HelpRequest();
         helpRequest.setFirstName(helpRequestDTORequest.getFirstName());

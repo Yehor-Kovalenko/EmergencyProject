@@ -54,11 +54,22 @@ public class CatastropheController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @Operation(summary = "Close an existing catastrophe", description = "Closes an existing catastrophe")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Catastrophe closed successfully"),
+            @ApiResponse(responseCode = "404", description = "Catastrophe not found")
+    })
+    @PostMapping("/close/{id}")
+    public void closeCatastrophe(@PathVariable long id) {
+        eventService.closeCatastrophe(id);
+    }
+
     private Catastrophe mapFromDTORequest(CatastropheDTORequest catastropheDTORequest) {
         Catastrophe catastrophe = new Catastrophe();
         catastrophe.setType(catastropheDTORequest.getType());
         catastrophe.setLatitude(catastropheDTORequest.getLatitude());
         catastrophe.setLongitude(catastropheDTORequest.getLongitude());
+        catastrophe.setActive(true);
         return catastrophe;
     }
 }
