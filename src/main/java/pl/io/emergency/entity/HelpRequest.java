@@ -35,6 +35,9 @@ public class HelpRequest implements Serializable {
     private String email;
 
     @NotBlank
+    private String emailLanguage;
+
+    @NotBlank
     private String description;
 
     private HelpRequestStatus status = HelpRequestStatus.REPORTED;

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import pl.io.emergency.entity.User;
+import pl.io.emergency.entity.users.User;
 
 import java.util.List;
 
@@ -18,4 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> searchUsersByName(String query);
     @Query("SELECT u.username FROM User u WHERE u.id = :id")
     String findUsernameById(@Param("id") Long id);
+    User findByUsername(@NotBlank(message = "Username is required") String username);
 }
