@@ -18,10 +18,12 @@ public class JwtUtil {
 
     public String generateAccessToken(User user) {
         return Jwts.builder()
+                .claims()
                 .subject(user.getId().toString())
-                .id(user.getId().toString())
+                .add("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
+                .and()
                 .signWith(secretKey)
                 .compact();
     }
