@@ -16,6 +16,9 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
     @Query("select m from MessageEntity m where m.receiverId = :receiverId")
     List<MessageEntity> read(@Param("receiverId") long receiverId);
 
+    @Query("select m from MessageEntity m where m.senderId = :senderId")
+    List<MessageEntity> readForSender(@Param("senderId") long senderId);
+
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO Messages (sender_id, receiver_id, timestamp, title, body, sender) VALUES (:#{#message.senderId},:#{#message.receiverId}, :#{#message.date}, :#{#message.title}, :#{#message.body}, :#{#message.sender})",

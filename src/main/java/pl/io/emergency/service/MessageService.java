@@ -49,6 +49,10 @@ public class MessageService {
         return messageRepository.read(receiverId);
     }
 
+    public List<MessageEntity> getMessagesForSender(long senderId) {
+        return messageRepository.readForSender(senderId);
+    }
+
     public boolean sendNotification(String receiverEmail, String type, String language, Map<String, String> placeholders, Long receiverId) {
         TemplateEntity template = templateService.getTemplateByType(type, language);
         String title = templateService.renderTemplate(template.getTitle(), placeholders);
