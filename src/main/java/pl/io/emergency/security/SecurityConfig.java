@@ -8,8 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -35,24 +33,11 @@ public class SecurityConfig {
                     return corsConfig;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/*", "/v3/api-docs/**", "/swagger-ui/**", "/api/catastrophes/**", "/api/help-requests/**").permitAll()
+                        .requestMatchers("/api/auth/*","/ngo", "/v3/api-docs/**", "/swagger-ui/**", "/api/catastrophes/**", "/api/help-requests/**").permitAll()
                         .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
                 )
                 .addFilterAfter(new JwtAuthenticationFilter(jwtUtil), BasicAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:5173") // Frontend port
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-            }
-        };
     }
 
     @Bean
