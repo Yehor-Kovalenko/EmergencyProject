@@ -25,4 +25,13 @@ public class TemplateEntity implements Serializable {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
+
+    public TemplateEntity(String type, String language, String title, String body) {
+        this.type = type;
+        this.language = language;
+        this.title = title;
+        this.body = body;
+    }
+
+    public TemplateEntity() {}
 }

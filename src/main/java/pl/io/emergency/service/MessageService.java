@@ -11,6 +11,7 @@ import pl.io.emergency.repository.UserRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class MessageService {
@@ -26,15 +27,21 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public boolean sendMessage(long senderId, long receiverId, String title, String body) {
-        MessageEntity message = new MessageEntity(senderId, receiverId, title, body, userRepository.findUsernameById(senderId));
+    public boolean sendMessage(long senderId, long receiverId, String title, String body, String language) {
+        MessageEntity message = new MessageEntity(senderId, receiverId, title, body, userRepository.findUsernameById(senderId), userRepository.findUsernameById(receiverId));
         int info = messageRepository.insertMessage(message);
         if (info == 1) {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setTo(userRepository.findEmailById(receiverId));
-            mailMessage.setSubject("📩 Nowa wiadomość w systemie pomocy humanitarnej! 🌟");
-            mailMessage.setText("Witaj!\n\nMasz nową wiadomość w systemie. 📨\nSprawdź swoją skrzynkę w systemie pomocy humanitarnej. 🌍");
             mailMessage.setFrom("hum.aid.system@gmail.com");
+            if (Objects.equals(language, "en")) {
+                mailMessage.setSubject("📩 New Message in the Humanitarian Aid System! 🌟");
+                mailMessage.setText("Hello!\n\nYou have a new message in the system. 📨\nCheck your inbox in the Humanitarian Aid System. 🌍");
+            }
+            else {
+                mailMessage.setSubject("📩 Nowa wiadomość w systemie pomocy humanitarnej! 🌟");
+                mailMessage.setText("Witaj!\n\nMasz nową wiadomość w systemie. 📨\nSprawdź swoją skrzynkę w systemie pomocy humanitarnej. 🌍");
+            }
             try {
                 emailService.sendEmail(mailMessage);
             } catch (Exception e) {
@@ -68,7 +75,7 @@ public class MessageService {
             System.out.println("AWS ses send failed");
         }
         if (receiverId != null) {
-            MessageEntity message = new MessageEntity(0, receiverId, title, body, "System pomocy humanitarnej");
+            MessageEntity message = new MessageEntity(0, receiverId, title, body, "System pomocy humanitarnej", userRepository.findUsernameById(receiverId));
             messageRepository.insertMessage(message);
         }
         return true;
