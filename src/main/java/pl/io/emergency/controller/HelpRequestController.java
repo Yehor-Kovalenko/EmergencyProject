@@ -30,6 +30,7 @@ public class HelpRequestController {
             @PathVariable Long catastropheId,
             @Valid @RequestBody HelpRequestDTORequest helpRequestDTORequest) {
         HelpRequest helpRequest = mapFromDTORequest(helpRequestDTORequest);
+        System.out.println("dupa");
         HelpRequest savedHelpRequest = eventService.createHelpRequest(catastropheId, helpRequest);
         return new ResponseEntity<>(savedHelpRequest, HttpStatus.CREATED);
     }
