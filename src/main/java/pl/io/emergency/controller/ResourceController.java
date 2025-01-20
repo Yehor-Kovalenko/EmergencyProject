@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/resource")
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @Tag(name = "Resource Management", description = "Operations related to resource management")
 public class ResourceController {
 
@@ -74,9 +74,9 @@ public class ResourceController {
             @ApiResponse(responseCode = "200", description = "Resource successfully created"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('GIVER') or hasRole('NGO') or hasRole('OFFICIAL')")
+    //@PreAuthorize("hasRole('GIVER') or hasRole('NGO') or hasRole('OFFICIAL')")
     @PostMapping("/destination")
+    //@CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<ResourceDto> createResourceToDestination(
             @RequestParam(required = true) ResourceType type,  // Przyjmujemy enum
             @RequestParam(required = true) String description,
@@ -111,9 +111,9 @@ public class ResourceController {
             @ApiResponse(responseCode = "200", description = "Resource successfully created"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('GIVER') or hasRole('OFFICIAL')")
+    //@PreAuthorize("hasRole('GIVER') or hasRole('OFFICIAL')")
     @PostMapping("/donate")
+    //@CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<ResourceDto> createResourceToDonate (
             @RequestParam(required = true) ResourceType type,  // Zmieniamy na ResourceType
             @RequestParam(required = true) String description,
@@ -151,9 +151,9 @@ public class ResourceController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Resources successfully retrieved"),
     })
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('GIVER') or hasRole('NGO') or hasRole('OFFICIAL')")
+    //@PreAuthorize("hasRole('GIVER') or hasRole('NGO') or hasRole('OFFICIAL')")
     @GetMapping("/getByholder/{holderId}")
+    //@CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<ResourceDto>> getResourcesByHolderId(@PathVariable Long holderId) {
         log.info("Fetching resources for holderId: {}", holderId);
 
@@ -171,9 +171,9 @@ public class ResourceController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Resources successfully retrieved"),
     })
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('GIVER') or hasRole('NGO') or hasRole('OFFICIAL')")
+    //@PreAuthorize("hasRole('GIVER') or hasRole('NGO') or hasRole('OFFICIAL')")
     @GetMapping("/getBydestination/{destinationId}")
+    //@CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<List<ResourceDto>> getResourcesByDestinationId(@PathVariable Long destinationId) {
         log.info("Fetching resources for destinationId: {}", destinationId);
 
@@ -192,9 +192,9 @@ public class ResourceController {
             @ApiResponse(responseCode = "200", description = "Resource status successfully updated"),
             @ApiResponse(responseCode = "404", description = "Resource not found")
     })
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('NGO') or hasRole('OFFICIAL')")
+    //@PreAuthorize("hasRole('NGO') or hasRole('OFFICIAL')")
     @PutMapping("/updateStatus/{resourceId}")
+    //@CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<ResourceDto> updateResourceStatus(@PathVariable Long resourceId, @RequestParam ResourceStatus status) {
         log.info("Updating status of resource with id {} to {}", resourceId, status);
 
@@ -216,9 +216,9 @@ public class ResourceController {
             @ApiResponse(responseCode = "200", description = "Resource destination successfully updated"),
             @ApiResponse(responseCode = "404", description = "Resource not found")
     })
-    @CrossOrigin(origins = "http://localhost:5173")
-    @PreAuthorize("hasRole('NGO') or hasRole('OFFICIAL')")
+    //@PreAuthorize("hasRole('NGO') or hasRole('OFFICIAL')")
     @PutMapping("/updateDestination/{resourceId}")
+    //@CrossOrigin(origins = "http://localhost:5173")
     public ResponseEntity<ResourceDto> updateResourceDestination(
             @PathVariable Long resourceId,
             @RequestParam Long newDestinationId) {
