@@ -52,7 +52,7 @@ public class NGOService {
     }
 
     // Wysyła zaproszenia do wszystkich wolontariuszy przypisanych do NGO
-    public Invitation invite(Long ngoId, int eventId) {
+    public Invitation invite(Long ngoId, int eventId, String language) {
         NGO ngo = ngoRepository.findById(ngoId)
                 .orElseThrow(() -> new IllegalArgumentException("NGO with ID " + ngoId + " does not exist."));
 

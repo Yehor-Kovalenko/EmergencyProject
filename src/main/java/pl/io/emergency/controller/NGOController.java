@@ -78,9 +78,9 @@ public class NGOController {
             @ApiResponse(responseCode = "404", description = "NGO not found")
     })
     @PostMapping("/{ngoId}/invite")
-    public ResponseEntity<Invitation> sendInvitation(@PathVariable Long ngoId, @RequestParam int eventId) {
+    public ResponseEntity<Invitation> sendInvitation(@PathVariable Long ngoId, @RequestParam int eventId, @RequestParam String language) {
         log.info("Sending invitation for event ID: {} to NGO ID: {}", eventId, ngoId);
-        Invitation invitation = ngoService.invite(ngoId, eventId);
+        Invitation invitation = ngoService.invite(ngoId, eventId, language);
         return ResponseEntity.ok(invitation);
     }
 
