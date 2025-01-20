@@ -45,7 +45,7 @@ public class MessageService {
             try {
                 emailService.sendEmail(mailMessage);
             } catch (Exception e) {
-                System.out.println("AWS ses send failed");
+                //System.out.println("AWS ses send failed");
             }
             return true;
         }
@@ -72,7 +72,7 @@ public class MessageService {
         try {
             emailService.sendEmail(mailMessage);
         } catch (Exception e) {
-            System.out.println("AWS ses send failed");
+            //System.out.println("AWS ses send failed");
         }
         if (receiverId != null) {
             MessageEntity message = new MessageEntity(0, receiverId, title, body, "System pomocy humanitarnej", userRepository.findUsernameById(receiverId));
