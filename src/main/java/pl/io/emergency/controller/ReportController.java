@@ -21,7 +21,8 @@ import java.time.LocalDate;
  * Controller managing API endpoints for generating reports about giver, resources, emergencies, history, etc.
  */
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8080"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:8080"},
+//            allowCredentials = "true")
 @RequestMapping("/api/report")
 public class ReportController {
     private static final Logger log = LoggerFactory.getLogger(ReportController.class);
