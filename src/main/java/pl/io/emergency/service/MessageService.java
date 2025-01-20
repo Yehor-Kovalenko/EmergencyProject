@@ -28,7 +28,7 @@ public class MessageService {
     }
 
     public boolean sendMessage(long senderId, long receiverId, String title, String body, String language) {
-        MessageEntity message = new MessageEntity(senderId, receiverId, title, body, userRepository.findUsernameById(senderId));
+        MessageEntity message = new MessageEntity(senderId, receiverId, title, body, userRepository.findUsernameById(senderId), userRepository.findUsernameById(receiverId));
         int info = messageRepository.insertMessage(message);
         if (info == 1) {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -75,7 +75,7 @@ public class MessageService {
             System.out.println("AWS ses send failed");
         }
         if (receiverId != null) {
-            MessageEntity message = new MessageEntity(0, receiverId, title, body, "System pomocy humanitarnej");
+            MessageEntity message = new MessageEntity(0, receiverId, title, body, "System pomocy humanitarnej", userRepository.findUsernameById(receiverId));
             messageRepository.insertMessage(message);
         }
         return true;

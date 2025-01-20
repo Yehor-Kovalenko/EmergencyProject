@@ -21,7 +21,7 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO Messages (sender_id, receiver_id, timestamp, title, body, sender) VALUES (:#{#message.senderId},:#{#message.receiverId}, :#{#message.date}, :#{#message.title}, :#{#message.body}, :#{#message.sender})",
+    @Query(value = "INSERT INTO Messages (sender_id, receiver_id, timestamp, title, body, sender, receiver) VALUES (:#{#message.senderId},:#{#message.receiverId}, :#{#message.date}, :#{#message.title}, :#{#message.body}, :#{#message.sender}, :#{#message.receiver})",
             nativeQuery = true)
     int insertMessage(@Param("message") MessageEntity message);
 }

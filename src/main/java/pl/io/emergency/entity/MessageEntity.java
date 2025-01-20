@@ -39,11 +39,15 @@ public class MessageEntity implements Serializable {
     @Column(name = "sender")
     private String sender;
 
+    @Getter
+    @Column(name = "receiver")
+    private String receiver;
+
     public MessageEntity() {
 
     }
 
-    public MessageEntity(long senderId, long receiverId, String title, String body, String sender)
+    public MessageEntity(long senderId, long receiverId, String title, String body, String sender, String receiver)
     {
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -51,5 +55,6 @@ public class MessageEntity implements Serializable {
         this.title = title;
         this.body = body;
         this.sender = sender;
+        this.receiver = receiver;
     }
 }
