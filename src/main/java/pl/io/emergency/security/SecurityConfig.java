@@ -33,7 +33,14 @@ public class SecurityConfig {
                     return corsConfig;
                 }))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/*","/ngo", "/v3/api-docs/**", "/swagger-ui/**", "/api/catastrophes/**", "/api/help-requests/**").permitAll()
+                        .requestMatchers(
+                                "/api/auth/*",
+                                "/ngo",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/api/catastrophes/**",
+                                "/api/help-requests/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterAfter(new JwtAuthenticationFilter(jwtUtil), BasicAuthenticationFilter.class);
