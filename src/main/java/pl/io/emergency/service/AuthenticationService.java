@@ -77,13 +77,6 @@ public class AuthenticationService {
                     .officialName(dto.getOfficialName())
                     .regon(dto.getRegon())
                     .build();
-            case "ADMIN" -> Admin.builder()
-                    .username(dto.getUsername())
-                    .password(encodedPassword)
-                    .email(dto.getEmail())
-                    .role(Role.ADMIN)
-                    .phone(dto.getPhone())
-                    .build();
             default -> throw new IllegalArgumentException("Invalid role: " + dto.getRole());
         };
 
