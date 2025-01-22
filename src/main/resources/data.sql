@@ -1,5 +1,5 @@
 -- db init for test usage 
-
+-- haslo do wszystkich userow --> 'password'
 INSERT INTO app_users (id, email, username, phone, password, role) VALUES
     (1, 'giver@example.com', 'giver', '123-456-789', '$2a$10$3DEvp/rDvtdKXvSiJ7nwVOxOFZHOntXlk9C4fF6QrTJ4k5deUUaLK', 'GIVER');
 INSERT INTO Giver (id, first_name, last_name, birth_date) VALUES
