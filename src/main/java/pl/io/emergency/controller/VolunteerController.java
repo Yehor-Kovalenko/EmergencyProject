@@ -6,13 +6,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.io.emergency.entity.Action;
 import pl.io.emergency.entity.users.Volunteer;
+import pl.io.emergency.repository.ActionRepository;
+import pl.io.emergency.repository.ActionRepository;
 import pl.io.emergency.service.VolunteerService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller providing access to the API endpoints for managing Volunteers.
@@ -25,9 +29,11 @@ public class VolunteerController {
 
     private static final Logger log = LoggerFactory.getLogger(VolunteerController.class);
     private final VolunteerService volunteerService;
+    private final ActionRepository actionRepository;
 
-    public VolunteerController(VolunteerService volunteerService) {
+    public VolunteerController(VolunteerService volunteerService, ActionRepository actionRepository) {
         this.volunteerService = volunteerService;
+        this.actionRepository = actionRepository;
     }
 
     @Operation(summary = "Get all volunteers", description = "Retrieve a list of all volunteers.")
@@ -100,5 +106,20 @@ public class VolunteerController {
                 .orElseThrow(() -> new IllegalArgumentException("Action not found for volunteer"));
         volunteerService.rejectAttendance(action);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/action/{actionID}")
+    public ResponseEntity<?> getActionById(@PathVariable Long actionID) {
+        // Wyszukiwanie akcji po ID
+        Optional<Action> action = actionRepository.findById(actionID);
+
+        // Jeśli akcja istnieje, zwróć ją w formacie JSON
+        if (action.isPresent()) {
+            return ResponseEntity.ok(action.get());
+        } else {
+            // Jeśli nie znaleziono akcji, zwróć status 404
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Action with ID " + actionID + " not found.");
+        }
     }
 }
