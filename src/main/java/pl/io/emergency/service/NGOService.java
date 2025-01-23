@@ -68,17 +68,20 @@ public class NGOService {
         invitation.setTitle("Invitation to Event " + eventId);
         invitation.setDescription("Join us for an important event!");
         invitation.setDate(new Date());
-        invitation.setLink("http://example.com/event/" + eventId);
+        invitation.setLink("http://localhost:5173/event/" + eventId);
         invitation.setSender(ngo.getName());
         invitation.setReceivers(volunteerEmails);
 
         Map<String, String> placeholders = new HashMap<>();
-        placeholders.put("eventLink", "http://example.com/event/" + eventId);
-
+//        placeholders.put("eventLink", "http://example.com/event/" + eventId);
+        String dynamic_link = "";
+        long vol_id = 0;
         for (int i = 0; i < volunteerEmails.size(); i++) {
             String email = volunteerEmails.get(i);
-            long id = volunteerId.get(i);
-            messageService.sendNotification(email, "vol1", "pl", placeholders, id);
+            vol_id = volunteerId.get(i);
+            dynamic_link = "http://localhost:5173/volunteers/" + vol_id + "/actions/" + eventId;
+            placeholders.put("eventLink", dynamic_link);
+            messageService.sendNotification(email, "vol1", "pl", placeholders, vol_id);
         }
         actionService.createActionsForVolunteers(volunteerId, eventId);
 
