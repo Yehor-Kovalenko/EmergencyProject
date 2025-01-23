@@ -23,7 +23,6 @@ public class JwtUtil {
     public String generateAccessToken(User user) {
         return Jwts.builder()
                 .claims()
-                .add("username", user.getUsername())
                 .add("userId", user.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
@@ -35,7 +34,6 @@ public class JwtUtil {
     public String generateRefreshToken(User user) {
         return Jwts.builder()
                 .claims()
-                .add("username", user.getUsername())
                 .add("userId", user.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION))
