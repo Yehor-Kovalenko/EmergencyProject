@@ -52,6 +52,7 @@ public class VolunteerService {
 
         if (action.getAttendance()) {
             action.setRatingFromAction(rating);
+            volunteer.setAvailable(true);
             actionRepository.save(action);
         } else {
             throw new IllegalArgumentException("Volunteer wasn't at this action.");
