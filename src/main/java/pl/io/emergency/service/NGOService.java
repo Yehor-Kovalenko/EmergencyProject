@@ -68,7 +68,7 @@ public class NGOService {
         invitation.setTitle("Invitation to Event " + eventId);
         invitation.setDescription("Join us for an important event!");
         invitation.setDate(new Date());
-        invitation.setLink("http://example.com/event/" + eventId);
+        invitation.setLink("http://localhost:5173/event/" + eventId);
         invitation.setSender(ngo.getName());
         invitation.setReceivers(volunteerEmails);
 
