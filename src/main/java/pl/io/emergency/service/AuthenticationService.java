@@ -31,9 +31,12 @@ public class AuthenticationService {
     }
 
     public void registerUser(RegistrationRequestDto dto) {
-        if (userRepository.existsByUsername(dto.getUsername())
-                && userRepository.existsByEmail(dto.getEmail())) {
+        if (userRepository.existsByUsername(dto.getUsername())) {
             throw new IllegalArgumentException("Username is already taken");
+        }
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException("Email is already taken");
         }
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
@@ -127,7 +130,8 @@ public class AuthenticationService {
     public Map<String, String> refreshAccessToken(String refreshToken) {
         if (refreshToken != null && jwtUtil.isTokenValid(refreshToken)) {
             String username = jwtUtil.extractUsername(refreshToken);
-            String accessToken = jwtUtil.generateAccessToken(userRepository.findByUsername(username));
+            User user = userRepository.findByUsername(username);
+            String accessToken = jwtUtil.generateAccessToken(user);
 
             Map<String, String> token = new HashMap<>();
             token.put("accessToken", accessToken);
