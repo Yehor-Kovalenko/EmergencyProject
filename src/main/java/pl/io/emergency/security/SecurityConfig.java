@@ -44,9 +44,6 @@ public class SecurityConfig {
                                 "/api/catastrophes/**",
                                 "/api/help-requests/**"
                         ).permitAll()
-                        .requestMatchers(
-                                "/volunteer/**"
-                        ).authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil, userRepository), BasicAuthenticationFilter.class);
