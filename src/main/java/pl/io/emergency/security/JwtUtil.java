@@ -23,7 +23,9 @@ public class JwtUtil {
     public String generateAccessToken(User user) {
         return Jwts.builder()
                 .claims()
+                .add("username", user.getUsername())
                 .add("userId", user.getId())
+                .add("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
                 .and()
