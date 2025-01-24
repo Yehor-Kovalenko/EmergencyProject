@@ -114,6 +114,7 @@ public class AuthenticationService {
                         .username(user.getUsername())
                         .userId(user.getId())
                         .role(user.getRole().toString())
+                        .email(user.getEmail())
                         .build())
                 .build();
     }
