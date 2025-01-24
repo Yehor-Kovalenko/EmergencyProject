@@ -13,4 +13,5 @@ public class UserDataDto {
     private String username;
     private Long userId;
     private String role;
+    private String email;
 }

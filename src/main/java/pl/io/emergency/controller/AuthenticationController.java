@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import pl.io.emergency.dto.authorization.LoginRequestDto;
 import pl.io.emergency.dto.authorization.LoginResponseDto;
-import pl.io.emergency.dto.authorization.PasswordRequestDto;
 import pl.io.emergency.dto.authorization.RegistrationRequestDto;
 import pl.io.emergency.service.AuthenticationService;
 
