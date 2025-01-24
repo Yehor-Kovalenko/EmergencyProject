@@ -66,6 +66,8 @@ public class AuthenticationService {
                     .lastName(dto.getLastName())
                     .birthDate(dto.getBirthDate())
                     .organizationId(dto.getOrganizationId())
+                    .available(true)
+                    .readyForMark(false)
                     .build();
             case "NGO" -> NGO.builder()
                     .username(dto.getUsername())
