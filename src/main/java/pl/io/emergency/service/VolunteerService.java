@@ -7,6 +7,7 @@ import pl.io.emergency.repository.ActionRepository;
 import pl.io.emergency.repository.VolunteerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VolunteerService {
@@ -61,6 +62,15 @@ public class VolunteerService {
 
     public void acceptAttendance(Action action) {
         action.setAttendance(true);
+        Optional<Volunteer> vol = volunteerRepository.findById(action.getVolunteerId());
+        if (vol.isPresent()) {
+            vol.get().setAvailable(false);
+            vol.get().setReadyForMark(false);
+//            System.out.println("ustawiam dostepnosc usera o id " + vol.get().getId() + " na " +vol.get().isAvailable());
+//            System.out.println("ustawiam ready for mark usera o id " + vol.get().getId() + " na " +vol.get().isReadyForMark());
+        }
+
+
         actionRepository.save(action);
     }
 
