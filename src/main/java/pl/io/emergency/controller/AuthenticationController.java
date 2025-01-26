@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import pl.io.emergency.dto.authorization.LoginRequestDto;
 import pl.io.emergency.dto.authorization.LoginResponseDto;
-import pl.io.emergency.dto.authorization.PasswordRequestDto;
 import pl.io.emergency.dto.authorization.RegistrationRequestDto;
 import pl.io.emergency.service.AuthenticationService;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -45,6 +46,11 @@ public class AuthenticationController {
             log.info("User registered successfully");
             return ResponseEntity.ok("User registered successfully");
         } catch (IllegalArgumentException e) {
+            if (Objects.equals(e.getMessage(), "Username is already taken")) {
+                return ResponseEntity.status(409).body("Username is already taken");
+            } else if (Objects.equals(e.getMessage(), "Email is already taken")) {
+                return ResponseEntity.status(409).body("Email is already taken");
+            }
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

@@ -1,5 +1,7 @@
 package pl.io.emergency.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import pl.io.emergency.security.JwtUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -22,6 +25,7 @@ public class AuthenticationService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
+    private final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
     public AuthenticationService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, JwtUtil jwtUtil, CookieUtil cookieUtil) {
         this.userRepository = userRepository;
@@ -31,9 +35,12 @@ public class AuthenticationService {
     }
 
     public void registerUser(RegistrationRequestDto dto) {
-        if (userRepository.existsByUsername(dto.getUsername())
-                && userRepository.existsByEmail(dto.getEmail())) {
+        if (userRepository.existsByUsername(dto.getUsername())) {
             throw new IllegalArgumentException("Username is already taken");
+        }
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException("Email is already taken");
         }
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
@@ -59,6 +66,8 @@ public class AuthenticationService {
                     .lastName(dto.getLastName())
                     .birthDate(dto.getBirthDate())
                     .organizationId(dto.getOrganizationId())
+                    .available(true)
+                    .readyForMark(false)
                     .build();
             case "NGO" -> NGO.builder()
                     .username(dto.getUsername())
@@ -76,13 +85,6 @@ public class AuthenticationService {
                     .role(Role.OFFICIAL)
                     .officialName(dto.getOfficialName())
                     .regon(dto.getRegon())
-                    .build();
-            case "ADMIN" -> Admin.builder()
-                    .username(dto.getUsername())
-                    .password(encodedPassword)
-                    .email(dto.getEmail())
-                    .role(Role.ADMIN)
-                    .phone(dto.getPhone())
                     .build();
             default -> throw new IllegalArgumentException("Invalid role: " + dto.getRole());
         };
@@ -112,6 +114,7 @@ public class AuthenticationService {
                         .username(user.getUsername())
                         .userId(user.getId())
                         .role(user.getRole().toString())
+                        .email(user.getEmail())
                         .build())
                 .build();
     }
@@ -133,13 +136,17 @@ public class AuthenticationService {
 
     public Map<String, String> refreshAccessToken(String refreshToken) {
         if (refreshToken != null && jwtUtil.isTokenValid(refreshToken)) {
-            String username = jwtUtil.extractUsername(refreshToken);
-            String accessToken = jwtUtil.generateAccessToken(userRepository.findByUsername(username));
+            String userId = jwtUtil.extractId(refreshToken);
+            Optional<User> user = userRepository.findById(Long.valueOf(userId));
+            if (user.isPresent()) {
+                String accessToken = jwtUtil.generateAccessToken(user.get());
 
-            Map<String, String> token = new HashMap<>();
-            token.put("accessToken", accessToken);
-
-            return token;
+                Map<String, String> token = new HashMap<>();
+                token.put("accessToken", accessToken);
+                return token;
+            } else {
+                log.error("UserId doesnt exist.");
+            }
         }
         throw new IllegalArgumentException("Invalid refresh token");
     }

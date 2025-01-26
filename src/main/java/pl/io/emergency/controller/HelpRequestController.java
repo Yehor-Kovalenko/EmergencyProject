@@ -13,12 +13,23 @@ import pl.io.emergency.dto.HelpRequestDTORequest;
 import pl.io.emergency.entity.HelpRequest;
 import pl.io.emergency.service.EventService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/help-requests")
 public class HelpRequestController {
 
     @Autowired
     private EventService eventService;
+
+    @Operation(summary = "Get all help requests", description = "Retrieves a list of all recorded help requests")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "List of help requests retrieved successfully")
+    })
+    @GetMapping
+    public List<HelpRequest> getAllHelpRequests() {
+        return eventService.getAllHelpRequests();
+    }
 
     @Operation(summary = "Create a new help request", description = "Creates a new help request for a specified catastrophe")
     @ApiResponses({

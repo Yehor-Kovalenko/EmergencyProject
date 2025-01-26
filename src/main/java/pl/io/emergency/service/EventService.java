@@ -7,10 +7,13 @@ import pl.io.emergency.dto.HelpRequestDTORequest;
 import pl.io.emergency.entity.Catastrophe;
 import pl.io.emergency.entity.HelpRequest;
 import pl.io.emergency.entity.HelpRequestStatus;
+import pl.io.emergency.entity.users.Volunteer;
 import pl.io.emergency.exception.CatastropheNotFound;
 import pl.io.emergency.exception.HelpRequestNotFound;
+import pl.io.emergency.repository.ActionRepository;
 import pl.io.emergency.repository.CatastropheRepository;
 import pl.io.emergency.repository.HelpRequestRepository;
+import pl.io.emergency.repository.VolunteerRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,10 @@ public class EventService {
 
     @Autowired
     private HelpRequestRepository helpRequestRepository;
+    @Autowired
+    private ActionRepository actionRepository;
+    @Autowired
+    private  VolunteerRepository volunteerRepository;
 
     public List<Catastrophe> getAllCatastrophes() {
         return catastropheRepository.findAll();
@@ -62,6 +69,10 @@ public class EventService {
 
     public Optional<Catastrophe> getCatastropheById(long id) {
         return catastropheRepository.findById(id);
+    }
+
+    public List<HelpRequest> getAllHelpRequests() {
+        return helpRequestRepository.findAll();
     }
 
     public Optional<HelpRequest> getHelpRequestByUniqueCode(String uniqueCode) {
@@ -102,7 +113,17 @@ public class EventService {
     public Catastrophe closeCatastrophe(long id) {
         Catastrophe catastrophe = catastropheRepository.findById(id)
                 .orElseThrow(() -> new CatastropheNotFound("Catastrophe not found with id " + id));
-
+        List<Long> volunteerIds = actionRepository.findVolunteerIdsByCatastropheIdAndAttendanceTrue(id);
+        System.out.println(volunteerIds);
+        for (Long volunteerId : volunteerIds) {
+            Optional<Volunteer> vol = volunteerRepository.findById(volunteerId);
+            if (vol.isPresent()) {
+                vol.get().setAvailable(true);
+                vol.get().setReadyForMark(true);
+//                System.out.println("ustawiam dostepnosc usera o id " + vol.get().getId() + " na " +vol.get().isAvailable());
+//                System.out.println("ustawiam ready for mark usera o id " + vol.get().getId() + " na " +vol.get().isReadyForMark());
+            }
+        }
         catastrophe.setActive(false);
         return catastropheRepository.save(catastrophe);
     }

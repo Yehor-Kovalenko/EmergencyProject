@@ -1,12 +1,14 @@
 package pl.io.emergency.repository;
 
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pl.io.emergency.entity.users.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -21,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     String findUsernameById(@Param("id") Long id);
 
     User findByUsername(@NotBlank(message = "Username is required") String username);
+
+    Optional<User> findById(@NotBlank Long id);
 }

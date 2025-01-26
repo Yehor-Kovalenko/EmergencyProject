@@ -79,7 +79,7 @@ public class NGOController {
     })
     @PostMapping("/{ngoId}/invite")
     public ResponseEntity<Invitation> sendInvitation(@PathVariable Long ngoId, @RequestParam int eventId) {
-        log.info("Sending invitation for event ID: {} to NGO ID: {}", eventId, ngoId);
+        log.info("Sending invitations for event ID: {} from NGO ID: {}", eventId, ngoId);
         Invitation invitation = ngoService.invite(ngoId, eventId);
         return ResponseEntity.ok(invitation);
     }
