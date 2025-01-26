@@ -71,6 +71,10 @@ public class EventService {
         return catastropheRepository.findById(id);
     }
 
+    public List<HelpRequest> getAllHelpRequests() {
+        return helpRequestRepository.findAll();
+    }
+
     public Optional<HelpRequest> getHelpRequestByUniqueCode(String uniqueCode) {
         return helpRequestRepository.findByUniqueCode(uniqueCode);
     }
