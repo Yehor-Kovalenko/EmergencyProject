@@ -11,8 +11,8 @@ import org.springframework.mail.MailSender;
 
 @Configuration
 public class AwsSesConfig {
-    private final String accessKey = "AKIA6IY35OW2HA3OGAWV";
-    private final String secretKey = "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";
+    private final String accessKey = "";
+    private final String secretKey = "";
     private final String region = "eu-north-1";
 
     @Bean
