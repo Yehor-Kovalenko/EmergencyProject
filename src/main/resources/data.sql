@@ -81,3 +81,13 @@ VALUES
 INSERT INTO help_requests (first_name, last_name, email, email_language, description, status, unique_code, catastrophe_id, reported_date)
 VALUES
 ('Jan', 'Kowalski', 'jan.kowalski@example.com', 'pl', 'Potrzebuję gaśnicy', 0, '11111111-1111-1111-1111-111111111111', 1, '2025-01-20 12:00:00');
+
+
+INSERT INTO resources (amount, date_of_registration, resource_status, resource_type, destination, holder_id, id_resource, description)
+VALUES (1, '20-01-2025', 0, 7, 1, 101, 1, 'Gaśnica');
+
+INSERT INTO resources (amount, date_of_registration, resource_status, resource_type, destination, holder_id, id_resource, description)
+VALUES (2, '20-01-2025', 0, 6, 1, 103, 2, 'Samochód');
+
+INSERT INTO resources (amount, date_of_registration, resource_status, resource_type, destination, holder_id, id_resource, description)
+VALUES (5, '25-01-2025', 0, 2, null, 102, 3, 'Apteczka pierwszej pomocy');
