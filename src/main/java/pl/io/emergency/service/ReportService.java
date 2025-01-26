@@ -97,11 +97,11 @@ public class ReportService {
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, allArchivedResources);
             }
             case ACTIVE_VOLUNTEERS -> {
-                List<VolunteerWithActionsDto> volunteersWithActions = this.getVolunteersWithActions(true);
+                List<VolunteerWithActionsDto> volunteersWithActions = this.getVolunteersWithActions(false);
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, volunteersWithActions);
             }
             case ARCHIVE_VOLUNTEERS -> {
-                List<VolunteerWithActionsDto> volunteersWithActions = this.getVolunteersWithActions(false);
+                List<VolunteerWithActionsDto> volunteersWithActions = this.getVolunteersWithActions(true);
                 return new Report(reportType, LocalDateTime.now(), dateFrom, dateTo, volunteersWithActions);
             }
             default -> {
