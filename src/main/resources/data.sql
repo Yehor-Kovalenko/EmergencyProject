@@ -20,6 +20,12 @@ INSERT INTO app_users (id, email, username, phone, password, role) VALUES
 INSERT INTO Volunteer (id, ready_for_mark, birth_date, organization_id, available, first_name, last_name) VALUES
     (104, true, '1995-05-05', 102, true, 'Jane', 'Smith');
 
+-- Dodatkowy wolantariusz, test raportowania
+INSERT INTO app_users (id, email, username, phone, password, role) VALUES
+    (105, 'mail2@gmail.com', 'volunteer2', '567-456-789', '$2a$10$3DEvp/rDvtdKXvSiJ7nwVOxOFZHOntXlk9C4fF6QrTJ4k5deUUaLK', 'VOLUNTEER');
+INSERT INTO Volunteer (id, ready_for_mark, birth_date, organization_id, available, first_name, last_name) VALUES
+    (105, true, '1990-02-03', 102, true, 'NotJane', 'NotSmith');
+
 SELECT * FROM app_users;
 
 --templates
