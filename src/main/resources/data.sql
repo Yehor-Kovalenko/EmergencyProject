@@ -74,13 +74,13 @@ VALUES ('vol2', 'en', 'Invitation to Join the Relief Effort', 'Hello Volunteer!
         We invite you to join the relief effort.
         To participate in the event, please click on this link -> {eventLink}');
 
+INSERT INTO catastrophes (type, longitude, latitude, is_active, reported_date)
+VALUES
+    ('Pożar', 52.2297, 21.0122, TRUE, '2025-01-20 11:30:00');
+
 INSERT INTO help_requests (first_name, last_name, email, email_language, description, status, unique_code, catastrophe_id, reported_date)
 VALUES
 ('Jan', 'Kowalski', 'jan.kowalski@example.com', 'pl', 'Potrzebuję gaśnicy', 0, '11111111-1111-1111-1111-111111111111', 1, '2025-01-20 12:00:00');
-
-INSERT INTO catastrophes (type, longitude, latitude, is_active, reported_date)
-VALUES
-('Pożar', 52.2297, 21.0122, TRUE, '2025-01-20 11:30:00');
 
 
 INSERT INTO resources (amount, date_of_registration, resource_status, resource_type, destination, holder_id, id_resource, description)
